@@ -9,7 +9,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-LGPL%203.0-green.svg?style=for-the-badge)](./COPYING.LESSER)
 
-**📚 [Lihat Dokumentasi Lengkap](./docs.md)** | **💬 [Discussion Chat](https://t.me/TechgramChat)** | **📖 [API Reference](https://deno.land/x/techgram/mod.ts)**
+**📚 [Lihat Dokumentasi Lengkap](./docs.md)** | **💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)** | **📖 [API Reference](https://deno.land/x/techgram/mod.ts)**
 
 </div>
 
@@ -67,8 +67,9 @@ bun add @techgram/node
 
 ### Contoh Sederhana - Bot
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: 12345678,
@@ -88,10 +89,9 @@ client.on("message", async (ctx) => {
 });
 ```
 
-### Contoh Sederhana - User Client
-
+**Node.js:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -119,8 +119,9 @@ export API_ID=12345678
 export API_HASH="your_api_hash"
 ```
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: parseInt(Deno.env.get("API_ID") || process.env.API_ID || "0"),
@@ -132,9 +133,9 @@ await client.connect();
 await client.start();
 ```
 
----
-
-## 🎨 Fitur-Fitur Lengkap
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 Techgram menyediakan semua fitur yang Anda butuhkan untuk membangun Telegram client:
 
@@ -318,6 +319,6 @@ Lihat [COPYING](./COPYING) dan [COPYING.LESSER](./COPYING.LESSER) untuk detail l
 
 **⭐ Star repository ini jika Techgram membantu Anda!**
 
-[📚 Dokumentasi Lengkap](./docs.md) | [💬 Discussion](https://t.me/TechgramChat) | [📖 API Reference](https://deno.land/x/techgram/mod.ts)
+[📚 Dokumentasi Lengkap](./docs.md) | [💬 Discussion Chat](https://t.me/techgramchat) | [📢 Channel](https://t.me/techwizch) | [👨‍💻 Developer](https://t.me/techwiz37) | [📖 API Reference](https://deno.land/x/techgram/mod.ts)
 
 </div>

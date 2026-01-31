@@ -2,6 +2,8 @@
 
 Dokumentasi lengkap untuk library Techgram - Cross-runtime JavaScript library untuk membangun Telegram client.
 
+**💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)** | **📖 [API Reference](https://deno.land/x/techgram/mod.ts)**
+
 ## Daftar Isi
 
 1. [Instalasi](#instalasi)
@@ -72,8 +74,20 @@ import { Client } from "@techgram/node";
 
 ### Membuat Client
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+```
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -92,8 +106,28 @@ await client.connect();
 
 **Cara 1: Langsung Pass Bot Token**
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  botToken: "YOUR_BOT_TOKEN"
+});
+
+const me = await client.getMe();
+console.log("Bot:", me.username);
+```
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -116,8 +150,23 @@ console.log("Bot:", me.username);
 export BOT_TOKEN="YOUR_BOT_TOKEN"
 ```
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start();
+```
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -131,8 +180,27 @@ await client.start();
 
 **Cara 3: Menggunakan Deno.env atau process.env**
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  botToken: Deno.env.get("BOT_TOKEN") || process.env.BOT_TOKEN || ""
+});
+```
+
+### Autentikasi User (Tanpa CLI Input)
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -150,8 +218,9 @@ await client.start({
 
 **Cara 1: Langsung Pass Credentials**
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: 12345678,
@@ -179,7 +248,7 @@ export PASSWORD="your_password"
 ```
 
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: 12345678,
@@ -194,7 +263,7 @@ await client.start();
 **Cara 3: Menggunakan Callback untuk Code & Password (Dynamic)**
 
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: 12345678,
@@ -217,7 +286,7 @@ await client.start({
 **Cara 4: Menggunakan Deno.env atau process.env**
 
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: 12345678,
@@ -1766,21 +1835,21 @@ const connection = await client.getBusinessConnection(connectionId);
 ### Get Random ID
 
 ```typescript
-import { getRandomId } from "mod.ts";
+import { getRandomId } from "https://deno.land/x/techgram/mod.ts";
 const id = getRandomId();
 ```
 
 ### Get Color from Peer ID
 
 ```typescript
-import { getColorFromPeerId } from "mod.ts";
+import { getColorFromPeerId } from "https://deno.land/x/techgram/mod.ts";
 const color = getColorFromPeerId(peerId);
 ```
 
 ### Get Color Name
 
 ```typescript
-import { getColorName } from "mod.ts";
+import { getColorName } from "https://deno.land/x/techgram/mod.ts";
 const colorName = getColorName(color);
 ```
 
@@ -1936,8 +2005,40 @@ client.on("downloadProgress", (ctx) => {
 
 ### Contoh Bot Lengkap (Tanpa CLI Input)
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  botToken: "YOUR_BOT_TOKEN"
+});
+
+client.on("message", async (ctx) => {
+  if (ctx.message.text === "/start") {
+    await ctx.reply("Halo! Selamat datang di bot ini.");
+  } else if (ctx.message.text === "/help") {
+    await ctx.reply("Ini adalah bantuan.");
+  }
+});
+
+client.on("callbackQuery", async (ctx) => {
+  if (ctx.callbackQuery.data === "btn1") {
+    await ctx.answerCallbackQuery({ text: "Diklik!" });
+    await ctx.reply("Tombol diklik!");
+  }
+});
+```
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -1968,8 +2069,34 @@ client.on("callbackQuery", async (ctx) => {
 
 ### Contoh User Client Lengkap (Tanpa CLI Input)
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  phone: "+1234567890",
+  code: "12345",
+  password: "your_password"
+});
+
+client.on("message", async (ctx) => {
+  console.log("Pesan baru:", ctx.message.text);
+  await ctx.reply("Pesan diterima!");
+});
+
+await client.sendMessage(chatId, "Halo dari user client!");
+```
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -1994,12 +2121,31 @@ await client.sendMessage(chatId, "Halo dari user client!");
 
 ### Contoh Menggunakan Environment Variables
 
+**Deno:**
 ```typescript
-import { Client, StorageMemory } from "mod.ts";
+import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   apiId: parseInt(Deno.env.get("API_ID") || process.env.API_ID || "0"),
   apiHash: Deno.env.get("API_HASH") || process.env.API_HASH || "",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start();
+
+client.on("message", async (ctx) => {
+  await ctx.reply("Halo!");
+});
+```
+
+**Node.js:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: parseInt(process.env.API_ID || "0"),
+  apiHash: process.env.API_HASH || "",
   storage: new StorageMemory(),
 });
 
@@ -2041,7 +2187,7 @@ try {
 ### Storage Memory
 
 ```typescript
-import { StorageMemory } from "mod.ts";
+import { StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   storage: new StorageMemory()
@@ -2051,7 +2197,7 @@ const client = new Client({
 ### Storage Local Storage
 
 ```typescript
-import { StorageLocalStorage } from "mod.ts";
+import { StorageLocalStorage } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   storage: new StorageLocalStorage()
@@ -2061,7 +2207,7 @@ const client = new Client({
 ### Storage Indexed DB
 
 ```typescript
-import { StorageIndexedDb } from "mod.ts";
+import { StorageIndexedDb } from "https://deno.land/x/techgram/mod.ts";
 
 const client = new Client({
   storage: new StorageIndexedDb()
