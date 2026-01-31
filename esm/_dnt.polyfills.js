@@ -162,7 +162,7 @@ export let import_meta_ponyfill_esmodule = (Reflect.get(globalThis, Symbol.for("
         const resolveFunStr = String(importMeta.resolve);
         const shimWs = new WeakSet();
         const mainUrl = ("file:///" + process.argv[1].replace(/\\/g, "/"))
-            .replace(/\/{3,}/, "
+            .replace(/\/{3,}/, "/");
         const commonShim = (importMeta) => {
             if (typeof importMeta.main !== "boolean") {
                 importMeta.main = importMeta.url === mainUrl;
