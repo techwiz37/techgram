@@ -45,6 +45,10 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 
+# Scripts (don't push deployment scripts)
+run.sh
+run.ps1
+
 # Optional: Uncomment if you want to ignore these
 # *.test.ts
 # *.test.tsx

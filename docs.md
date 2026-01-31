@@ -39,12 +39,74 @@ Dokumentasi lengkap untuk library Techgram - Cross-runtime JavaScript library un
 ## Instalasi
 
 ### Node.js
+
+**Instalasi dari GitHub:**
+
+Techgram saat ini tersedia melalui GitHub. Install menggunakan:
+
 ```bash
-npm install @techgram/node
+npm install github:techwiz37/techgram
 ```
 
+Atau tambahkan di `package.json`:
+```json
+{
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+Install dari branch/tag tertentu:
+```bash
+npm install github:techwiz37/techgram#main
+npm install github:techwiz37/techgram#v0.1.0
+```
+
+**Persyaratan:**
+- Node.js versi 18.0.0 atau lebih baru
+- Package harus menggunakan ES Modules
+
+**Setup package.json:**
+```json
+{
+  "name": "my-telegram-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+**Import:**
 ```typescript
-import { Client } from "@techgram/node";
+import { Client, StorageMemory } from "@techgram/node";
+```
+
+**Contoh Lengkap:**
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  botToken: "YOUR_BOT_TOKEN"
+});
+
+client.on("message", async (ctx) => {
+  if (ctx.message.text === "/start") {
+    await ctx.reply("Halo!");
+  }
+});
 ```
 
 ### Deno
@@ -61,7 +123,16 @@ import { Client } from "https://deno.land/x/techgram/mod.ts";
 
 ### Bun
 ```bash
-bun add @techgram/node
+bun add github:techwiz37/techgram
+```
+
+Atau di `package.json`:
+```json
+{
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
 ```
 
 ```typescript
@@ -2037,6 +2108,27 @@ client.on("callbackQuery", async (ctx) => {
 ```
 
 **Node.js:**
+
+**1. Setup Project:**
+```bash
+npm init -y
+npm install github:techwiz37/techgram
+```
+
+**2. package.json:**
+```json
+{
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+**3. index.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -2065,6 +2157,13 @@ client.on("callbackQuery", async (ctx) => {
     await ctx.reply("Tombol diklik!");
   }
 });
+```
+
+**4. Jalankan:**
+```bash
+npm start
+# atau
+node index.js
 ```
 
 ### Contoh User Client Lengkap (Tanpa CLI Input)

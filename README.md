@@ -43,9 +43,97 @@ Techgram adalah library modern yang dirancang khusus untuk membangun Telegram cl
 
 ### Instalasi
 
-**Node.js:**
+**Node.js (dari GitHub):**
 ```bash
-npm install @techgram/node
+npm install github:techwiz37/techgram
+```
+
+**Catatan:** Techgram saat ini tersedia melalui GitHub. Install menggunakan:
+```bash
+npm install github:techwiz37/techgram
+```
+
+Atau tambahkan di `package.json`:
+```json
+{
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+Atau tambahkan di `package.json`:
+```json
+{
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+**Persyaratan Node.js:**
+- Node.js versi 18.0.0 atau lebih baru
+- TypeScript (opsional, untuk type support)
+- Package harus menggunakan ES Modules (`"type": "module"` di package.json)
+
+**Setup Project Node.js:**
+
+1. Buat project baru:
+```bash
+mkdir my-telegram-bot
+cd my-telegram-bot
+npm init -y
+```
+
+2. Install Techgram dari GitHub:
+```bash
+npm install github:techwiz37/techgram
+```
+
+Atau install dari branch/tag tertentu:
+```bash
+npm install github:techwiz37/techgram#main
+npm install github:techwiz37/techgram#v0.1.0
+```
+
+3. Setup package.json untuk ES Modules:
+```json
+{
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+4. Buat file `index.js` atau `index.ts`:
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  botToken: "YOUR_BOT_TOKEN"
+});
+
+client.on("message", async (ctx) => {
+  await ctx.reply("Halo!");
+});
+```
+
+5. Jalankan:
+```bash
+node index.js
+# atau dengan TypeScript
+npx tsx index.ts
 ```
 
 **Deno:**
@@ -62,7 +150,16 @@ import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
 
 **Bun:**
 ```bash
-bun add @techgram/node
+bun add github:techwiz37/techgram
+```
+
+Atau di `package.json`:
+```json
+{
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
 ```
 
 ### Contoh Sederhana - Bot
@@ -101,14 +198,19 @@ const client = new Client({
 
 await client.connect();
 await client.start({
-  phone: "+1234567890",
-  code: "12345",
-  password: "your_password"
+  botToken: "YOUR_BOT_TOKEN"
 });
 
 client.on("message", async (ctx) => {
-  console.log("Pesan baru:", ctx.message.text);
+  if (ctx.message.text === "/start") {
+    await ctx.reply("Halo! Selamat datang! 🎉");
+  }
 });
+```
+
+**Catatan:** Install dari GitHub:
+```bash
+npm install github:techwiz37/techgram
 ```
 
 ### Menggunakan Environment Variables (Tanpa CLI!)
@@ -136,6 +238,29 @@ await client.start();
 **Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: parseInt(process.env.API_ID || "0"),
+  apiHash: process.env.API_HASH || "",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start();
+
+client.on("message", async (ctx) => {
+  await ctx.reply("Halo!");
+});
+```
+
+**Install dari GitHub:**
+```bash
+npm install github:techwiz37/techgram
+```
+
+---
+
+## 🎨 Fitur-Fitur Lengkap
 
 Techgram menyediakan semua fitur yang Anda butuhkan untuk membangun Telegram client:
 
@@ -237,9 +362,22 @@ Techgram cocok untuk berbagai use case:
 
 ## 📝 Contoh Kode
 
+Semua contoh menggunakan `@techgram/node` untuk Node.js:
+
 ### Handler dengan Filter
 
 ```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({ botToken: "YOUR_BOT_TOKEN" });
+
 client.on("message:text", async (ctx) => {
   await ctx.reply("Ini adalah pesan teks!");
 });
@@ -252,6 +390,17 @@ client.on("message:photo", async (ctx) => {
 ### Middleware
 
 ```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({ botToken: "YOUR_BOT_TOKEN" });
+
 client.use(async (ctx, next) => {
   console.log("Sebelum handler");
   await next();
@@ -262,6 +411,17 @@ client.use(async (ctx, next) => {
 ### Inline Keyboard
 
 ```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({ botToken: "YOUR_BOT_TOKEN" });
+
 await client.sendMessage(chatId, "Pilih opsi:", {
   replyMarkup: {
     type: "inlineKeyboard",
@@ -276,6 +436,17 @@ await client.sendMessage(chatId, "Pilih opsi:", {
 ### Download File dengan Progress
 
 ```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({ botToken: "YOUR_BOT_TOKEN" });
+
 for await (const chunk of client.download(fileId, {
   progressId: "download-1"
 })) {

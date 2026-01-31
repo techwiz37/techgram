@@ -1,0 +1,35 @@
+{
+  "name": "@techgram/node",
+  "version": "0.0.1",
+  "description": "Cross-runtime JavaScript library for building Telegram clients",
+  "keywords": [
+    "telegram",
+    "telegram-client",
+    "telegram-bot",
+    "telegram-api",
+    "deno",
+    "typescript"
+  ],
+  "homepage": "https://github.com/techwiz37/techgram#readme",
+  "bugs": {
+    "url": "https://github.com/techwiz37/techgram/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techwiz37/techgram.git"
+  },
+  "license": "LGPL-3.0",
+  "author": "Techwiz",
+  "type": "module",
+  "exports": {
+    ".": "./mod.ts",
+    "./worker": "./worker.ts"
+  },
+  "main": "mod.ts",
+  "scripts": {
+    "test": "deno test --allow-all"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
