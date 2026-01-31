@@ -3,7 +3,7 @@
 import { assertArg } from "../_common/from_file_url.js";
 export function fromFileUrl(url) {
     url = assertArg(url);
-    let path = decodeURIComponent(url.pathname.replace(/\
+    let path = decodeURIComponent(url.pathname.replace(/\//g, "\\").replace(/%(?![0-9A-Fa-f]{2})/g, "%25"));
     if (url.hostname !== "") {
         path = `\\\\${url.hostname}${path}`;
     }
