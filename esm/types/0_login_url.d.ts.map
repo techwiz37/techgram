@@ -1,0 +1,1 @@
+{"version":3,"file":"0_login_url.d.ts","sourceRoot":"","sources":["../../src/types/0_login_url.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;GAkBG;AAEH,mBAAmB;AACnB,MAAM,WAAW,QAAQ;IACvB,qBAAqB;IACrB,GAAG,EAAE,MAAM,CAAC;IACZ,8FAA8F;IAC9F,WAAW,CAAC,EAAE,MAAM,CAAC;IACrB,+DAA+D;IAC/D,WAAW,CAAC,EAAE,MAAM,CAAC;IACrB,2EAA2E;IAC3E,kBAAkB,CAAC,EAAE,OAAO,CAAC;CAC9B"}

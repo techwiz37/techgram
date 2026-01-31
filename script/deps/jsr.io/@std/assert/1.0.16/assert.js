@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.assert = assert;
+// Copyright 2018-2025 the Deno authors. MIT license.
+// This module is browser compatible.
+const assertion_error_js_1 = require("./assertion_error.js");
+function assert(expr, msg = "") {
+    if (!expr) {
+        throw new assertion_error_js_1.AssertionError(msg);
+    }
+}

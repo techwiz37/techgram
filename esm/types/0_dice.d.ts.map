@@ -1,0 +1,1 @@
+{"version":3,"file":"0_dice.d.ts","sourceRoot":"","sources":["../../src/types/0_dice.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;GAkBG;AAEH,OAAO,KAAK,EAAE,GAAG,EAAE,MAAM,YAAY,CAAC;AAEtC,qBAAqB;AACrB,MAAM,WAAW,IAAI;IACnB,+CAA+C;IAC/C,KAAK,EAAE,MAAM,CAAC;IACd,0JAA0J;IAC1J,KAAK,EAAE,MAAM,CAAC;CACf;AAED,wBAAgB,aAAa,CAAC,KAAK,EAAE,GAAG,CAAC,gBAAgB,GAAG,IAAI,CAE/D"}

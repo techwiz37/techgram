@@ -1,0 +1,1 @@
+{"version":3,"file":"0_opening_hours.d.ts","sourceRoot":"","sources":["../../src/types/0_opening_hours.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;GAkBG;AAEH,OAAO,KAAK,EAAE,GAAG,EAAE,MAAM,YAAY,CAAC;AAEtC,MAAM,WAAW,YAAY;IAC3B,QAAQ,EAAE,MAAM,CAAC;IACjB,SAAS,EAAE,CAAC,MAAM,EAAE,MAAM,CAAC,EAAE,CAAC;CAC/B;AAED,wBAAgB,qBAAqB,CAAC,KAAK,EAAE,GAAG,CAAC,iBAAiB,GAAG,YAAY,CAKhF"}

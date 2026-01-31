@@ -1,62 +1,39 @@
 {
-  "name": "@techgram/node",
+  "name": "@techwiz/techgram",
   "version": "0.0.1",
-  "description": "TypeScript/JavaScript library for building Telegram clients on Node.js and Bun",
-  "keywords": [
-    "telegram",
-    "telegram-client",
-    "telegram-bot",
-    "telegram-api",
-    "nodejs",
-    "bun",
-    "typescript",
-    "esm",
-    "commonjs"
-  ],
-  "homepage": "https://github.com/techwiz37/techgram#readme",
-  "bugs": {
-    "url": "https://github.com/techwiz37/techgram/issues"
-  },
+  "description": "Library bot telegram support bot & user",
+  "author": "Techwiz",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/techwiz37/techgram.git"
   },
-  "license": "LGPL-3.0",
-  "author": "Techwiz",
-  "type": "module",
-  "main": "./dist/cjs/mod.js",
-  "module": "./dist/esm/mod.js",
-  "types": "./mod.ts",
+  "license": "LGPL-3.0-or-later",
+  "main": "./script/mod.js",
+  "module": "./esm/mod.js",
   "exports": {
     ".": {
-      "types": "./mod.ts",
-      "import": "./dist/esm/mod.js",
-      "require": "./dist/cjs/mod.js",
-      "default": "./dist/esm/mod.js"
+      "import": "./esm/mod.js",
+      "require": "./script/mod.js"
     },
-    "./worker": {
-      "types": "./worker.ts",
-      "import": "./dist/esm/worker.js",
-      "require": "./dist/cjs/worker.js",
-      "default": "./dist/esm/worker.js"
+    "./1_utilities": {
+      "import": "./esm/1_utilities.js",
+      "require": "./script/1_utilities.js"
     }
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build.js",
-    "postinstall": "node postinstall.js"
+    "test": "node test_runner.js"
   },
   "dependencies": {
-    "lru-cache": "^10.0.0",
-    "mime-types": "^2.1.35",
-    "ws": "^8.16.0"
+    "@deno/shim-crypto": "~0.3.1",
+    "@deno/shim-prompts": "~0.1.0",
+    "ws": "^8.13.0",
+    "@deno/shim-deno": "~0.19.2",
+    "node-localstorage": "^3.0.5"
   },
   "devDependencies": {
-    "esbuild": "^0.19.12",
-    "glob": "^10.5.0",
-    "typescript": "^5.0.0"
+    "picocolors": "^1.0.0",
+    "@types/ws": "^8.5.4",
+    "@types/node-localstorage": "^1.3.3"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "_generatedBy": "dnt@dev"
 }

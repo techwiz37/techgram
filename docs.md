@@ -2,7 +2,7 @@
 
 Dokumentasi lengkap untuk library Techgram - TypeScript/JavaScript library untuk membangun Telegram client di Node.js dan Bun.
 
-**💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)**
+**💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)** | **📖 [README](./README.md)**
 
 ## Daftar Isi
 
@@ -52,7 +52,7 @@ Dokumentasi lengkap untuk library Techgram - TypeScript/JavaScript library untuk
     "start": "node index.js"
   },
   "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
+    "@techwiz/techgram": "github:techwiz37/techgram"
   }
 }
 ```
@@ -67,7 +67,7 @@ Dokumentasi lengkap untuk library Techgram - TypeScript/JavaScript library untuk
     "start": "node index.js"
   },
   "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
+    "@techwiz/techgram": "github:techwiz37/techgram"
   }
 }
 ```
@@ -81,7 +81,7 @@ npm install
 
 **ESM:**
 ```javascript
-import { Client, StorageMemory } from "@techgram/node";
+import { Client, StorageMemory } from "@techwiz/techgram";
 
 const client = new Client({
   apiId: 12345678,
@@ -103,7 +103,7 @@ client.on("message", async (ctx) => {
 
 **CommonJS:**
 ```javascript
-const { Client, StorageMemory } = require("@techgram/node");
+const { Client, StorageMemory } = require("@techwiz/techgram");
 
 const client = new Client({
   apiId: 12345678,
@@ -125,105 +125,42 @@ client.on("message", async (ctx) => {
 
 **4. Jalankan:**
 
-**Node.js:**
 ```bash
 npm start
 ```
-
-**Bun:**
-```bash
-bun run index.js
-```
-
-**Persyaratan:**
-- Node.js versi 18.0.0 atau lebih baru, atau Bun.js
-- Library otomatis mendukung ESM dan CommonJS
-- TypeScript support (opsional)
 
 ---
 
 ## Koneksi & Autentikasi
 
-### Membuat Client
+### Menggunakan Environment Variables (Tanpa CLI)
 
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
+Techgram mendukung autentikasi tanpa input CLI menggunakan environment variables.
 
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-```
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-```
-
-### Koneksi ke Server
-
-```typescript
-await client.connect();
-```
-
-### Autentikasi Bot (Tanpa CLI Input)
-
-**Cara 1: Langsung Pass Bot Token**
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: "YOUR_BOT_TOKEN"
-});
-
-const me = await client.getMe();
-console.log("Bot:", me.username);
-```
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: "YOUR_BOT_TOKEN"
-});
-
-const me = await client.getMe();
-console.log("Bot:", me.username);
-```
-
-**Cara 2: Menggunakan Environment Variable**
-
+**Untuk Bot:**
 ```bash
 export BOT_TOKEN="YOUR_BOT_TOKEN"
+export API_ID=12345678
+export API_HASH="your_api_hash"
 ```
 
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
+**Untuk User:**
+```bash
+export PHONE_NUMBER="+1234567890"
+export VERIFICATION_CODE="12345"
+export PASSWORD="your_password"
+export API_ID=12345678
+export API_HASH="your_api_hash"
+```
+
+**Contoh dengan Environment Variables:**
+
+```javascript
+import { Client, StorageMemory } from "@techwiz/techgram";
 
 const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
+  apiId: parseInt(process.env.API_ID || "0"),
+  apiHash: process.env.API_HASH || "",
   storage: new StorageMemory(),
 });
 
@@ -231,193 +168,41 @@ await client.connect();
 await client.start();
 ```
 
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
+### Autentikasi Bot
 
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
-```
-
-**Cara 3: Menggunakan Deno.env atau process.env**
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
+```javascript
 await client.start({
-  botToken: process.env("BOT_TOKEN") || process.env.BOT_TOKEN || ""
+  botToken: "YOUR_BOT_TOKEN"
 });
 ```
 
-### Autentikasi User (Tanpa CLI Input)
+### Autentikasi User
 
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: process.env("BOT_TOKEN") || process.env.BOT_TOKEN || ""
-});
-```
-
-### Autentikasi User (Tanpa CLI Input)
-
-**Cara 1: Langsung Pass Credentials**
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
+```javascript
 await client.start({
   phone: "+1234567890",
   code: "12345",
   password: "your_password"
 });
-
-const me = await client.getMe();
-console.log("User:", me.firstName);
 ```
 
-**Cara 2: Menggunakan Environment Variables**
+### Manual Sign In
 
-```bash
-export PHONE_NUMBER="+1234567890"
-export VERIFICATION_CODE="12345"
-export PASSWORD="your_password"
-```
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
-```
-
-**Cara 3: Menggunakan Callback untuk Code & Password (Dynamic)**
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  phone: "+1234567890",
-  code: async () => {
-    return "12345";
-  },
-  password: async (hint) => {
-    return "your_password";
-  }
-});
-```
-
-**Cara 4: Menggunakan Deno.env atau process.env**
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  phone: process.env("PHONE_NUMBER") || process.env.PHONE_NUMBER || "",
-  code: process.env("VERIFICATION_CODE") || process.env.VERIFICATION_CODE || "",
-  password: process.env("PASSWORD") || process.env.PASSWORD || ""
-});
-```
-
-**Catatan Penting:**
-- Tidak perlu input CLI lagi, semua credentials bisa di-pass langsung atau via environment variables
-- Jika `params` tidak diberikan dan environment variables tidak ada, akan throw error yang jelas
-- Password hanya diperlukan jika akun memiliki 2FA enabled
-
-### Mengirim Kode Verifikasi
-
-```typescript
+```javascript
 await client.sendCode("+1234567890");
-```
-
-### Mengecek Kode Verifikasi
-
-```typescript
 const result = await client.checkCode("12345");
-if (result.type === "signed_in") {
-  console.log("Berhasil login!");
-} else if (result.type === "password_required") {
-  const password = await client.checkPassword("your_password");
+
+if (result.type === "password_required") {
+  const hint = await client.getPasswordHint();
+  const passwordResult = await client.checkPassword("your_password");
 }
 ```
 
-### Mengecek Password (2FA)
+### Export & Import Auth
 
-```typescript
-const hint = await client.getPasswordHint();
-const result = await client.checkPassword("your_password");
-```
-
-### Export & Import Auth String
-
-```typescript
+```javascript
 const authString = await client.exportAuthString();
 await client.importAuthString(authString);
-```
-
-### Sign Out
-
-```typescript
-await client.signOut();
-```
-
-### Disconnect
-
-```typescript
-await client.disconnect();
-```
-
-### Mendapatkan Info User Saat Ini
-
-```typescript
-const me = await client.getMe();
-console.log(me.firstName, me.lastName);
 ```
 
 ---
@@ -426,158 +211,354 @@ console.log(me.firstName, me.lastName);
 
 ### Mengirim Pesan Teks
 
-```typescript
-const message = await client.sendMessage(chatId, "Halo dunia!");
+```javascript
+await client.sendMessage(chatId, "Halo dunia!");
 ```
 
-### Mengirim Pesan dengan Parse Mode
+### Mengirim Pesan dengan Format
 
-```typescript
-const message = await client.sendMessage(chatId, "**Bold** dan *italic*", {
+```javascript
+await client.sendMessage(chatId, "**Bold** dan *italic*", {
   parseMode: "markdown"
-});
-```
-
-### Mengirim Pesan dengan Reply
-
-```typescript
-const message = await client.sendMessage(chatId, "Ini adalah reply", {
-  replyTo: { messageId: 123 }
 });
 ```
 
 ### Mengirim Foto
 
-```typescript
-const message = await client.sendPhoto(chatId, "path/to/photo.jpg", {
-  caption: "Ini adalah foto",
-  parseMode: "markdown"
-});
-```
-
-### Mengirim Dokumen
-
-```typescript
-const message = await client.sendDocument(chatId, "path/to/file.pdf", {
-  caption: "Ini adalah dokumen"
+```javascript
+await client.sendPhoto(chatId, "path/to/photo.jpg", {
+  caption: "Ini adalah foto"
 });
 ```
 
 ### Mengirim Video
 
-```typescript
-const message = await client.sendVideo(chatId, "path/to/video.mp4", {
+```javascript
+await client.sendVideo(chatId, "path/to/video.mp4", {
   caption: "Ini adalah video",
-  duration: 60,
-  width: 1920,
-  height: 1080
+  duration: 60
+});
+```
+
+### Mengirim Dokumen
+
+```javascript
+await client.sendDocument(chatId, "path/to/file.pdf", {
+  caption: "Ini adalah dokumen"
 });
 ```
 
 ### Mengirim Audio
 
-```typescript
-const message = await client.sendAudio(chatId, "path/to/audio.mp3", {
-  title: "Judul Lagu",
-  performer: "Nama Artis",
-  duration: 180
+```javascript
+await client.sendAudio(chatId, "path/to/audio.mp3", {
+  caption: "Ini adalah audio",
+  duration: 120,
+  performer: "Artist",
+  title: "Song Title"
 });
 ```
 
-### Mengirim Voice Note
+### Mengirim Voice
 
-```typescript
-const message = await client.sendVoice(chatId, "path/to/voice.ogg", {
-  caption: "Pesan suara"
+```javascript
+await client.sendVoice(chatId, "path/to/voice.ogg", {
+  caption: "Ini adalah voice message",
+  duration: 30
 });
 ```
 
 ### Mengirim Sticker
 
-```typescript
-const message = await client.sendSticker(chatId, "path/to/sticker.webp");
-```
-
-### Mengirim Video Note (Round Video)
-
-```typescript
-const message = await client.sendVideoNote(chatId, "path/to/video_note.mp4", {
-  length: 240,
-  duration: 10
-});
-```
-
-### Mengirim Animation (GIF)
-
-```typescript
-const message = await client.sendAnimation(chatId, "path/to/animation.gif", {
-  caption: "Ini adalah GIF"
-});
+```javascript
+await client.sendSticker(chatId, "path/to/sticker.webp");
 ```
 
 ### Mengirim Lokasi
 
-```typescript
-const message = await client.sendLocation(chatId, -6.2088, 106.8456, {
-  horizontalAccuracy: 10
+```javascript
+await client.sendLocation(chatId, -6.2088, 106.8456, {
+  livePeriod: 3600
 });
 ```
 
 ### Mengirim Kontak
 
-```typescript
-const message = await client.sendContact(chatId, "John", "+1234567890", {
-  lastName: "Doe"
-});
-```
-
-### Mengirim Venue
-
-```typescript
-const message = await client.sendVenue(
-  chatId,
-  -6.2088,
-  106.8456,
-  "Nama Tempat",
-  "Alamat Tempat"
-);
-```
-
-### Mengirim Dice
-
-```typescript
-const message = await client.sendDice(chatId, {
-  emoji: "🎲"
-});
+```javascript
+await client.sendContact(chatId, "+1234567890", "John Doe");
 ```
 
 ### Mengirim Poll
 
-```typescript
-const message = await client.sendPoll(
-  chatId,
-  "Pertanyaan?",
-  ["Opsi 1", "Opsi 2", "Opsi 3"],
-  {
-    type: "quiz",
-    correctOptionIndex: 0
-  }
-);
+```javascript
+await client.sendPoll(chatId, "Pertanyaan?", ["Opsi 1", "Opsi 2", "Opsi 3"], {
+  isAnonymous: false,
+  allowsMultipleAnswers: true
+});
+```
+
+### Mengirim Dice
+
+```javascript
+await client.sendDice(chatId);
 ```
 
 ### Mengirim Media Group
 
-```typescript
-const messages = await client.sendMediaGroup(chatId, [
+```javascript
+await client.sendMediaGroup(chatId, [
   { type: "photo", media: "photo1.jpg" },
-  { type: "photo", media: "photo2.jpg" }
+  { type: "photo", media: "photo2.jpg" },
+  { type: "video", media: "video.mp4" }
 ]);
 ```
 
-### Mengirim Pesan dengan Keyboard
+### Edit Pesan
 
-```typescript
-const message = await client.sendMessage(chatId, "Pilih opsi:", {
+```javascript
+await client.editMessageText(chatId, messageId, "Pesan yang sudah diubah");
+await client.editMessageCaption(chatId, messageId, { caption: "Caption baru" });
+```
+
+### Hapus Pesan
+
+```javascript
+await client.deleteMessage(chatId, messageId);
+await client.deleteMessages(chatId, [messageId1, messageId2]);
+```
+
+### Forward Pesan
+
+```javascript
+await client.forwardMessages(chatId, fromChatId, [messageId]);
+```
+
+### Pin Pesan
+
+```javascript
+await client.pinMessage(chatId, messageId);
+await client.unpinMessage(chatId, messageId);
+```
+
+### Scheduled Messages
+
+```javascript
+await client.sendMessage(chatId, "Pesan terjadwal", {
+  scheduleDate: new Date(Date.now() + 3600000)
+});
+```
+
+---
+
+## Menerima Update
+
+### Handler Pesan
+
+```javascript
+client.on("message", async (ctx) => {
+  await ctx.reply("Pesan diterima!");
+});
+```
+
+### Handler Pesan Teks
+
+```javascript
+client.on("message:text", async (ctx) => {
+  if (ctx.message.text === "/start") {
+    await ctx.reply("Halo!");
+  }
+});
+```
+
+### Handler Pesan Foto
+
+```javascript
+client.on("message:photo", async (ctx) => {
+  await ctx.reply("Foto diterima!");
+});
+```
+
+### Handler Pesan Video
+
+```javascript
+client.on("message:video", async (ctx) => {
+  await ctx.reply("Video diterima!");
+});
+```
+
+### Handler Update Lainnya
+
+```javascript
+client.on("update:messageReaction", async (ctx) => {
+  console.log("Reaction diterima");
+});
+
+client.on("update:callbackQuery", async (ctx) => {
+  await ctx.answerCallbackQuery();
+});
+
+client.on("update:inlineQuery", async (ctx) => {
+  await ctx.answerInlineQuery([]);
+});
+```
+
+### Middleware
+
+```javascript
+client.use(async (ctx, next) => {
+  console.log("Sebelum handler");
+  await next();
+  console.log("Setelah handler");
+});
+```
+
+### Filter
+
+```javascript
+client.on("message:text", async (ctx) => {
+  if (ctx.message.text.startsWith("/")) {
+    await ctx.reply("Ini adalah command");
+  }
+});
+```
+
+---
+
+## Manajemen Chat
+
+### Mendapatkan Informasi Chat
+
+```javascript
+const chat = await client.getChat(chatId);
+console.log(chat.title);
+```
+
+### Membuat Group
+
+```javascript
+const group = await client.createGroup("Nama Group", [userId1, userId2]);
+```
+
+### Membuat Channel
+
+```javascript
+const channel = await client.createChannel("Nama Channel", {
+  description: "Deskripsi channel"
+});
+```
+
+### Mengubah Foto Chat
+
+```javascript
+await client.setChatPhoto(chatId, "path/to/photo.jpg");
+```
+
+### Mengubah Deskripsi Chat
+
+```javascript
+await client.setChatDescription(chatId, "Deskripsi baru");
+```
+
+### Mengubah Title Chat
+
+```javascript
+await client.setChatTitle(chatId, "Title baru");
+```
+
+### Archive & Unarchive
+
+```javascript
+await client.archiveChat(chatId);
+await client.unarchiveChat(chatId);
+```
+
+### Mute & Unmute
+
+```javascript
+await client.muteChat(chatId, { until: new Date(Date.now() + 3600000) });
+await client.unmuteChat(chatId);
+```
+
+---
+
+## Manajemen File
+
+### Download File
+
+```javascript
+for await (const chunk of client.download(fileId)) {
+  console.log("Chunk diterima:", chunk.length);
+}
+```
+
+### Download dengan Progress
+
+```javascript
+client.on("downloadProgress", (ctx) => {
+  console.log(`Progress: ${ctx.progress}%`);
+});
+
+for await (const chunk of client.download(fileId, {
+  progressId: "download-1"
+})) {
+}
+```
+
+### Upload File
+
+```javascript
+const message = await client.sendDocument(chatId, "path/to/file.pdf");
+```
+
+### Upload dengan Progress
+
+```javascript
+client.on("uploadProgress", (ctx) => {
+  console.log(`Upload progress: ${ctx.progress}%`);
+});
+
+await client.sendDocument(chatId, "path/to/file.pdf", {
+  progressId: "upload-1"
+});
+```
+
+---
+
+## Inline Query & Callback Query
+
+### Handler Inline Query
+
+```javascript
+client.on("update:inlineQuery", async (ctx) => {
+  await ctx.answerInlineQuery([
+    {
+      type: "article",
+      id: "1",
+      title: "Hasil 1",
+      inputMessageContent: {
+        type: "text",
+        text: "Ini adalah hasil 1"
+      }
+    }
+  ]);
+});
+```
+
+### Handler Callback Query
+
+```javascript
+client.on("update:callbackQuery", async (ctx) => {
+  if (ctx.callbackQuery.data === "button1") {
+    await ctx.answerCallbackQuery({ text: "Tombol diklik!" });
+    await ctx.editMessageText("Pesan diubah");
+  }
+});
+```
+
+### Inline Keyboard
+
+```javascript
+await client.sendMessage(chatId, "Pilih opsi:", {
   replyMarkup: {
     type: "inlineKeyboard",
     inlineKeyboard: [[
@@ -588,583 +569,17 @@ const message = await client.sendMessage(chatId, "Pilih opsi:", {
 });
 ```
 
-### Mengirim Pesan dengan Reply Keyboard
+### Reply Keyboard
 
-```typescript
-const message = await client.sendMessage(chatId, "Pilih:", {
+```javascript
+await client.sendMessage(chatId, "Pilih opsi:", {
   replyMarkup: {
     type: "keyboard",
     keyboard: [[
-      { text: "Opsi 1" },
-      { text: "Opsi 2" }
-    ]],
-    resizeKeyboard: true
+      { text: "Tombol 1" },
+      { text: "Tombol 2" }
+    ]]
   }
-});
-```
-
-### Mengirim Pesan yang Dijadwalkan
-
-```typescript
-const message = await client.sendMessage(chatId, "Pesan terjadwal", {
-  sendAt: Date.now() + 3600000
-});
-```
-
-### Mengirim Pesan dengan Self Destruct
-
-```typescript
-const message = await client.sendPhoto(chatId, "photo.jpg", {
-  selfDestruct: { type: "timer", seconds: 60 }
-});
-```
-
----
-
-## Menerima Update
-
-### Handler untuk Pesan Baru
-
-```typescript
-client.on("message", async (ctx) => {
-  console.log("Pesan baru:", ctx.message.text);
-});
-```
-
-### Handler untuk Pesan yang Diedit
-
-```typescript
-client.on("editedMessage", async (ctx) => {
-  console.log("Pesan diedit:", ctx.editedMessage.text);
-});
-```
-
-### Handler untuk Callback Query
-
-```typescript
-client.on("callbackQuery", async (ctx) => {
-  await ctx.answerCallbackQuery({ text: "Diklik!" });
-  console.log("Callback data:", ctx.callbackQuery.data);
-});
-```
-
-### Handler untuk Inline Query
-
-```typescript
-client.on("inlineQuery", async (ctx) => {
-  await ctx.answerInlineQuery([{
-    type: "article",
-    id: "1",
-    title: "Hasil 1",
-    inputMessageContent: { type: "text", text: "Ini hasil 1" }
-  }]);
-});
-```
-
-### Handler untuk Update Lainnya
-
-```typescript
-client.on("chatMemberUpdated", async (ctx) => {
-  console.log("Member berubah:", ctx.chatMemberUpdated);
-});
-
-client.on("poll", async (ctx) => {
-  console.log("Poll update:", ctx.poll);
-});
-
-client.on("story", async (ctx) => {
-  console.log("Story baru:", ctx.story);
-});
-
-client.on("chatJoinRequest", async (ctx) => {
-  console.log("Join request:", ctx.chatJoinRequest);
-});
-
-client.on("preCheckoutQuery", async (ctx) => {
-  console.log("Pre checkout:", ctx.preCheckoutQuery);
-});
-```
-
-### Filter Pesan
-
-```typescript
-client.on("message:text", async (ctx) => {
-  console.log("Hanya pesan teks");
-});
-
-client.on("message:photo", async (ctx) => {
-  console.log("Hanya pesan foto");
-});
-
-client.on("message:document", async (ctx) => {
-  console.log("Hanya pesan dokumen");
-});
-
-client.on("message:video", async (ctx) => {
-  console.log("Hanya pesan video");
-});
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text?.startsWith("/start")) {
-    await ctx.reply("Halo!");
-  }
-});
-```
-
-### Filter dengan Predicate
-
-```typescript
-client.filter(
-  (ctx) => ctx.message?.from?.id === 123456789,
-  async (ctx) => {
-    console.log("Pesan dari user tertentu");
-  }
-);
-```
-
-### Branch Handler
-
-```typescript
-client.branch(
-  (ctx) => ctx.message?.text === "/start",
-  async (ctx) => {
-    await ctx.reply("Start!");
-  },
-  async (ctx) => {
-    await ctx.reply("Bukan start");
-  }
-);
-```
-
-### Middleware
-
-```typescript
-client.use(async (ctx, next) => {
-  console.log("Sebelum handler");
-  await next();
-  console.log("Setelah handler");
-});
-```
-
-### Middleware dengan Filter
-
-```typescript
-client.use(async (ctx, next) => {
-  if (ctx.message?.from?.id === 123456789) {
-    await next();
-  }
-});
-```
-
-### Context Reply
-
-```typescript
-client.on("message", async (ctx) => {
-  await ctx.reply("Balasan");
-  await ctx.replyPhoto("photo.jpg");
-  await ctx.replyDocument("file.pdf");
-});
-```
-
----
-
-## Manajemen Chat
-
-### Mendapatkan Daftar Chat
-
-```typescript
-const chats = await client.getChats();
-```
-
-### Mendapatkan Info Chat
-
-```typescript
-const chat = await client.getChat(chatId);
-```
-
-### Mendapatkan History Chat
-
-```typescript
-const messages = await client.getHistory(chatId, {
-  limit: 50
-});
-```
-
-### Membaca Pesan
-
-```typescript
-await client.readMessages(chatId, messageId);
-```
-
-### Mencari Pesan
-
-```typescript
-const messages = await client.searchMessages({
-  chatId: chatId,
-  query: "kata kunci",
-  limit: 20
-});
-```
-
-### Mengedit Pesan
-
-```typescript
-await client.editMessageText(chatId, messageId, "Pesan baru");
-```
-
-### Mengedit Caption
-
-```typescript
-await client.editMessageCaption(chatId, messageId, {
-  caption: "Caption baru"
-});
-```
-
-### Menghapus Pesan
-
-```typescript
-await client.deleteMessage(chatId, messageId);
-```
-
-### Menghapus Banyak Pesan
-
-```typescript
-await client.deleteMessages(chatId, [1, 2, 3]);
-```
-
-### Pin Pesan
-
-```typescript
-await client.pinMessage(chatId, messageId);
-```
-
-### Unpin Pesan
-
-```typescript
-await client.unpinMessage(chatId, messageId);
-```
-
-### Forward Pesan
-
-```typescript
-await client.forwardMessage(fromChatId, toChatId, messageId);
-```
-
-### Forward Banyak Pesan
-
-```typescript
-await client.forwardMessages(fromChatId, toChatId, [1, 2, 3]);
-```
-
-### Mengirim Chat Action
-
-```typescript
-await client.sendChatAction(chatId, "typing");
-```
-
-### Join Chat
-
-```typescript
-await client.joinChat(chatId);
-```
-
-### Leave Chat
-
-```typescript
-await client.leaveChat(chatId);
-```
-
-### Membuat Group
-
-```typescript
-const chat = await client.createGroup("Nama Group", {
-  users: [userId1, userId2]
-});
-```
-
-### Membuat Supergroup
-
-```typescript
-const chat = await client.createSupergroup("Nama Supergroup", {
-  description: "Deskripsi"
-});
-```
-
-### Membuat Channel
-
-```typescript
-const chat = await client.createChannel("Nama Channel", {
-  description: "Deskripsi channel"
-});
-```
-
-### Mengatur Foto Chat
-
-```typescript
-await client.setChatPhoto(chatId, "path/to/photo.jpg");
-```
-
-### Menghapus Foto Chat
-
-```typescript
-await client.deleteChatPhoto(chatId);
-```
-
-### Mengatur Deskripsi Chat
-
-```typescript
-await client.setChatDescription(chatId, "Deskripsi baru");
-```
-
-### Mengatur Judul Chat
-
-```typescript
-await client.setChatTitle(chatId, "Judul Baru");
-```
-
-### Mengatur Message TTL
-
-```typescript
-await client.setMessageTtl(chatId, 86400);
-```
-
-### Archive Chat
-
-```typescript
-await client.archiveChat(chatId);
-```
-
-### Archive Banyak Chat
-
-```typescript
-await client.archiveChats([chatId1, chatId2]);
-```
-
-### Unarchive Chat
-
-```typescript
-await client.unarchiveChat(chatId);
-```
-
-### Unarchive Banyak Chat
-
-```typescript
-await client.unarchiveChats([chatId1, chatId2]);
-```
-
-### Mendapatkan Chat Settings
-
-```typescript
-const settings = await client.getChatSettings(chatId);
-```
-
-### Enable Business Bots
-
-```typescript
-await client.enableBusinessBots(chatId);
-```
-
-### Disable Business Bots
-
-```typescript
-await client.disableBusinessBots(chatId);
-```
-
-### Set Slow Mode
-
-```typescript
-await client.setSlowMode(chatId, { seconds: 30 });
-```
-
-### Disable Slow Mode
-
-```typescript
-await client.disableSlowMode(chatId);
-```
-
-### Set Member List Visibility
-
-```typescript
-await client.setMemberListVisibility(chatId, true);
-```
-
-### Set Topics Enabled
-
-```typescript
-await client.setTopicsEnabled(chatId, true, true);
-```
-
-### Set Antispam Enabled
-
-```typescript
-await client.setAntispamEnabled(chatId, true);
-```
-
-### Set Signatures Enabled
-
-```typescript
-await client.setSignaturesEnabled(chatId, true);
-```
-
-### Delete Chat
-
-```typescript
-await client.deleteChat(chatId);
-```
-
-### Mendapatkan Discussion Chat Suggestions
-
-```typescript
-const suggestions = await client.getDiscussionChatSuggestions();
-```
-
-### Set Discussion Chat
-
-```typescript
-await client.setDiscussionChat(chatId, discussionChatId);
-```
-
-### Transfer Chat Ownership
-
-```typescript
-await client.transferChatOwnership(chatId, userId, "password");
-```
-
-### Open Chat
-
-```typescript
-await client.openChat(chatId);
-```
-
-### Close Chat
-
-```typescript
-await client.closeChat(chatId);
-```
-
-### Add Chat Member
-
-```typescript
-const failed = await client.addChatMember(chatId, userId, {
-  forwardLimit: 100
-});
-```
-
-### Add Chat Members
-
-```typescript
-const failed = await client.addChatMembers(chatId, [userId1, userId2]);
-```
-
-### Delete Chat Member Messages
-
-```typescript
-await client.deleteChatMemberMessages(chatId, memberId);
-```
-
----
-
-## Manajemen File
-
-### Download File
-
-```typescript
-for await (const chunk of client.download(fileId)) {
-  console.log("Chunk:", chunk);
-}
-```
-
-### Download dengan Progress
-
-```typescript
-const file = await client.download(fileId, {
-  progressId: "progress-1"
-});
-
-client.on("downloadProgress", (ctx) => {
-  if (ctx.progressId === "progress-1") {
-    console.log(`Progress: ${ctx.progress}%`);
-  }
-});
-```
-
-### Upload File
-
-```typescript
-const message = await client.sendDocument(chatId, "path/to/file.pdf");
-```
-
-### Download Chunk
-
-```typescript
-const chunk = await client.downloadChunk(fileId, {
-  offset: 0,
-  chunkSize: 1024
-});
-```
-
----
-
-## Inline Query & Callback Query
-
-### Handler Inline Query
-
-```typescript
-client.on("inlineQuery", async (ctx) => {
-  await ctx.answerInlineQuery([
-    {
-      type: "article",
-      id: "1",
-      title: "Hasil 1",
-      description: "Deskripsi hasil 1",
-      inputMessageContent: {
-        type: "text",
-        text: "Ini adalah hasil 1"
-      }
-    },
-    {
-      type: "photo",
-      id: "2",
-      photoUrl: "https://example.com/photo.jpg",
-      thumbnailUrl: "https://example.com/thumb.jpg"
-    }
-  ]);
-});
-```
-
-### Handler Callback Query
-
-```typescript
-client.on("callbackQuery", async (ctx) => {
-  if (ctx.callbackQuery.data === "btn1") {
-    await ctx.answerCallbackQuery({ text: "Tombol diklik!" });
-    await ctx.editMessageText("Pesan diupdate!");
-  }
-});
-```
-
-### Answer Callback Query
-
-```typescript
-await client.answerCallbackQuery(callbackQueryId, {
-  text: "Berhasil!",
-  alert: true
-});
-```
-
-### Send Callback Query
-
-```typescript
-const answer = await client.sendCallbackQuery(botId, messageId, {
-  text: "Pertanyaan?"
-});
-```
-
-### Send Inline Query
-
-```typescript
-const answer = await client.sendInlineQuery(botId, chatId, {
-  query: "pencarian"
 });
 ```
 
@@ -1172,140 +587,63 @@ const answer = await client.sendInlineQuery(botId, chatId, {
 
 ## Manajemen User & Profile
 
+### Mendapatkan Informasi User
+
+```javascript
+const me = await client.getMe();
+console.log(me.firstName, me.lastName);
+```
+
 ### Update Profile
 
-```typescript
+```javascript
 await client.updateProfile({
-  firstName: "Nama Depan",
-  lastName: "Nama Belakang",
+  firstName: "John",
+  lastName: "Doe",
   bio: "Bio saya"
 });
 ```
 
 ### Set Birthday
 
-```typescript
+```javascript
 await client.setBirthday({
-  birthday: {
-    day: 1,
-    month: 1,
-    year: 2000
-  }
+  day: 1,
+  month: 1,
+  year: 1990
 });
 ```
 
 ### Set Emoji Status
 
-```typescript
-await client.setEmojiStatus("emoji_id", {
-  until: Date.now() + 86400000
-});
+```javascript
+await client.setEmojiStatus("emoji_id");
 ```
 
 ### Set Name Color
 
-```typescript
-await client.setNameColor(0xFF0000, {
-  customEmojiId: "emoji_id"
-});
+```javascript
+await client.setNameColor(0xFF0000);
 ```
 
 ### Set Profile Color
 
-```typescript
+```javascript
 await client.setProfileColor(0x00FF00);
 ```
 
 ### Set Location
 
-```typescript
+```javascript
 await client.setLocation({
   latitude: -6.2088,
-  longitude: 106.8456,
-  address: "Alamat"
+  longitude: 106.8456
 });
-```
-
-### Set Personal Channel
-
-```typescript
-await client.setPersonalChannel({
-  chatId: channelId
-});
-```
-
-### Set My Name (Bot)
-
-```typescript
-await client.setMyName({
-  name: "Nama Bot",
-  languageCode: "id"
-});
-```
-
-### Set My Description (Bot)
-
-```typescript
-await client.setMyDescription({
-  description: "Deskripsi bot",
-  languageCode: "id"
-});
-```
-
-### Set My Short Description (Bot)
-
-```typescript
-await client.setMyShortDescription({
-  shortDescription: "Deskripsi pendek",
-  languageCode: "id"
-});
-```
-
-### Get My Name (Bot)
-
-```typescript
-const name = await client.getMyName({
-  languageCode: "id"
-});
-```
-
-### Get My Description (Bot)
-
-```typescript
-const description = await client.getMyDescription({
-  languageCode: "id"
-});
-```
-
-### Get My Short Description (Bot)
-
-```typescript
-const shortDescription = await client.getMyShortDescription({
-  languageCode: "id"
-});
-```
-
-### Show Username
-
-```typescript
-await client.showUsername(userId, "username");
-```
-
-### Hide Username
-
-```typescript
-await client.hideUsername(userId, "username");
-```
-
-### Reorder Usernames
-
-```typescript
-await client.reorderUsernames(userId, ["username1", "username2"]);
 ```
 
 ### Set Online Status
 
-```typescript
+```javascript
 await client.setOnline(true);
 ```
 
@@ -1313,336 +651,46 @@ await client.setOnline(true);
 
 ## Manajemen Channel & Group
 
-### Mendapatkan Member Chat
+### Mendapatkan Member
 
-```typescript
+```javascript
 const members = await client.getChatMembers(chatId);
 ```
 
-### Mendapatkan Info Member
+### Add Member
 
-```typescript
-const member = await client.getChatMember(chatId, userId);
+```javascript
+await client.addChatMember(chatId, userId);
 ```
 
 ### Ban Member
 
-```typescript
-await client.banChatMember(chatId, userId, {
-  until: Date.now() + 86400000,
-  deleteMessages: true
-});
+```javascript
+await client.banChatMember(chatId, userId);
 ```
 
-### Unban Member
+### Promote Member
 
-```typescript
-await client.unbanChatMember(chatId, userId);
-```
-
-### Kick Member
-
-```typescript
-await client.kickChatMember(chatId, userId);
-```
-
-### Set Chat Member Rights
-
-```typescript
-await client.setChatMemberRights(chatId, userId, {
-  rights: {
-    canSendMessages: true,
-    canSendMedia: true,
-    canSendPolls: false
-  }
-});
-```
-
-### Promote Chat Member
-
-```typescript
+```javascript
 await client.promoteChatMember(chatId, userId, {
   canDeleteMessages: true,
-  canManageChat: true,
-  title: "Admin"
+  canRestrictMembers: true
 });
 ```
 
-### Mendapatkan Administrator
+### Invite Link
 
-```typescript
-const admins = await client.getChatAdministrators(chatId);
-```
-
-### Membuat Invite Link
-
-```typescript
-const link = await client.createInviteLink(chatId, {
-  title: "Link Undangan",
-  expireAt: Date.now() + 86400000,
-  limit: 100
-});
-```
-
-### Mendapatkan Invite Links
-
-```typescript
+```javascript
+const link = await client.createInviteLink(chatId);
 const links = await client.getCreatedInviteLinks(chatId);
 ```
 
-### Set Chat Sticker Set
+### Join Requests
 
-```typescript
-await client.setChatStickerSet(chatId, "sticker_set_name");
-```
-
-### Delete Chat Sticker Set
-
-```typescript
-await client.deleteChatStickerSet(chatId);
-```
-
-### Set Available Reactions
-
-```typescript
-await client.setAvailableReactions(chatId, "all");
-```
-
-### Enable Join Requests
-
-```typescript
-await client.enableJoinRequests(chatId);
-```
-
-### Disable Join Requests
-
-```typescript
-await client.disableJoinRequests(chatId);
-```
-
-### Mendapatkan Join Requests
-
-```typescript
+```javascript
 const requests = await client.getJoinRequests(chatId);
-```
-
-### Approve Join Request
-
-```typescript
-await client.approveJoinRequest(chatId, userId);
-```
-
-### Decline Join Request
-
-```typescript
-await client.declineJoinRequest(chatId, userId);
-```
-
----
-
-## Story & Media
-
-### Membuat Story
-
-```typescript
-const story = await client.createStory(chatId, {
-  type: "photo",
-  photo: "path/to/photo.jpg"
-}, {
-  caption: "Caption story",
-  privacy: {
-    type: "contacts"
-  }
-});
-```
-
-### Mendapatkan Stories
-
-```typescript
-const stories = await client.getStories(chatId, [storyId1, storyId2]);
-```
-
-### Mendapatkan Story
-
-```typescript
-const story = await client.getStory(chatId, storyId);
-```
-
-### Menghapus Story
-
-```typescript
-await client.deleteStory(chatId, storyId);
-```
-
-### Menghapus Banyak Stories
-
-```typescript
-await client.deleteStories(chatId, [storyId1, storyId2]);
-```
-
-### Menambahkan Story ke Highlights
-
-```typescript
-await client.addStoryToHighlights(chatId, storyId);
-```
-
-### Menambahkan Banyak Stories ke Highlights
-
-```typescript
-await client.addStoriesToHighlights(chatId, [storyId1, storyId2]);
-```
-
-### Menghapus Story dari Highlights
-
-```typescript
-await client.removeStoryFromHighlights(chatId, storyId);
-```
-
-### Menghapus Banyak Stories dari Highlights
-
-```typescript
-await client.removeStoriesFromHighlights(chatId, [storyId1, storyId2]);
-```
-
----
-
-## Video Chat & Live Stream
-
-### Start Video Chat
-
-```typescript
-const videoChat = await client.startVideoChat(chatId, {
-  title: "Video Chat"
-});
-```
-
-### Join Video Chat
-
-```typescript
-const joinUrl = await client.joinVideoChat(videoChatId, params, {
-  audio: true,
-  video: true
-});
-```
-
-### Leave Video Chat
-
-```typescript
-await client.leaveVideoChat(videoChatId);
-```
-
-### Mendapatkan Video Chat
-
-```typescript
-const videoChat = await client.getVideoChat(videoChatId);
-```
-
-### Join Live Stream
-
-```typescript
-await client.joinLiveStream(streamId);
-```
-
-### Mendapatkan Live Stream Channels
-
-```typescript
-const channels = await client.getLiveStreamChannels(streamId);
-```
-
-### Download Live Stream Segment
-
-```typescript
-const segment = await client.downloadLiveStreamSegment(
-  streamId,
-  channelId,
-  scale,
-  timestamp
-);
-```
-
----
-
-## Payment & Invoice
-
-### Mengirim Invoice
-
-```typescript
-const message = await client.sendInvoice(chatId, "Judul", "Deskripsi", "payload", "USD", [
-  { label: "Item 1", amount: 1000 },
-  { label: "Item 2", amount: 2000 }
-]);
-```
-
-### Answer Pre Checkout Query
-
-```typescript
-await client.answerPreCheckoutQuery(preCheckoutQueryId, true);
-```
-
-### Refund Star Payment
-
-```typescript
-await client.refundStarPayment(userId, telegramPaymentChargeId);
-```
-
----
-
-## Reactions
-
-### Menambahkan Reaction
-
-```typescript
-await client.addReaction(chatId, messageId, "👍");
-```
-
-### Menghapus Reaction
-
-```typescript
-await client.removeReaction(chatId, messageId, "👍");
-```
-
-### Set Reactions
-
-```typescript
-await client.setReactions(chatId, messageId, ["👍", "❤️"], {
-  big: true
-});
-```
-
-### Mendapatkan Message Reactions
-
-```typescript
-const reactions = await client.getMessageReactions(chatId, messageId);
-```
-
----
-
-## Poll & Voting
-
-### Vote Poll
-
-```typescript
-await client.vote(chatId, messageId, [0, 1]);
-```
-
-### Retract Vote
-
-```typescript
-await client.retractVote(chatId, messageId);
-```
-
-### Stop Poll
-
-```typescript
-const poll = await client.stopPoll(chatId, messageId);
-```
-
-### Handler Poll Update
-
-```typescript
-client.on("poll", async (ctx) => {
-  console.log("Poll diupdate:", ctx.poll);
-});
+await client.approveJoinRequests(chatId, [userId]);
+await client.declineJoinRequests(chatId, [userId]);
 ```
 
 ---
@@ -1651,67 +699,183 @@ client.on("poll", async (ctx) => {
 
 ### Membuat Topic
 
-```typescript
-const topic = await client.createTopic(chatId, "Judul Topic", {
-  iconColor: 0xFF0000
+```javascript
+const topic = await client.createTopic(chatId, "Nama Topic");
+```
+
+### Edit Topic
+
+```javascript
+await client.editTopic(chatId, topicId, {
+  title: "Title baru"
 });
 ```
 
-### Mengedit Topic
+### Hapus Topic
 
-```typescript
-const topic = await client.editTopic(chatId, topicId, "Judul Baru", {
-  iconColor: 0x00FF00
-});
-```
-
-### Menghapus Topic
-
-```typescript
+```javascript
 await client.deleteTopic(chatId, topicId);
-```
-
-### Hide General Topic
-
-```typescript
-await client.hideGeneralTopic(chatId);
-```
-
-### Show General Topic
-
-```typescript
-await client.showGeneralTopic(chatId);
-```
-
-### Close Topic
-
-```typescript
-await client.closeTopic(chatId, topicId);
-```
-
-### Reopen Topic
-
-```typescript
-await client.reopenTopic(chatId, topicId);
 ```
 
 ### Pin Topic
 
-```typescript
+```javascript
 await client.pinTopic(chatId, topicId);
 ```
 
-### Unpin Topic
+---
 
-```typescript
-await client.unpinTopic(chatId, topicId);
+## Story & Media
+
+### Membuat Story
+
+```javascript
+await client.createStory({
+  content: {
+    type: "photo",
+    photo: "path/to/photo.jpg"
+  },
+  privacy: {
+    type: "contacts"
+  }
+});
 ```
 
-### Mengirim Pesan ke Topic
+### Hapus Story
 
-```typescript
-await client.sendMessage(chatId, "Pesan", {
-  messageThreadId: topicId
+```javascript
+await client.deleteStory(storyId);
+```
+
+### Mendapatkan Story
+
+```javascript
+const stories = await client.getStories(userId);
+```
+
+---
+
+## Video Chat & Live Stream
+
+### Start Video Chat
+
+```javascript
+await client.startVideoChat(chatId);
+```
+
+### Join Video Chat
+
+```javascript
+await client.joinVideoChat(chatId, {
+  inviteHash: "hash"
+});
+```
+
+### Schedule Video Chat
+
+```javascript
+await client.scheduleVideoChat(chatId, {
+  startDate: new Date(Date.now() + 3600000)
+});
+```
+
+### Download Live Stream
+
+```javascript
+await client.downloadLiveStreamSegment(chatId, {
+  time: 0,
+  scale: 1
+});
+```
+
+---
+
+## Payment & Invoice
+
+### Mengirim Invoice
+
+```javascript
+await client.sendInvoice(chatId, {
+  title: "Produk",
+  description: "Deskripsi produk",
+  payload: "payload",
+  providerToken: "token",
+  currency: "USD",
+  prices: [
+    { label: "Item", amount: 1000 }
+  ]
+});
+```
+
+### Handler Pre Checkout Query
+
+```javascript
+client.on("update:preCheckoutQuery", async (ctx) => {
+  await ctx.answerPreCheckoutQuery({ ok: true });
+});
+```
+
+### Handler Successful Payment
+
+```javascript
+client.on("message:successfulPayment", async (ctx) => {
+  console.log("Pembayaran berhasil:", ctx.message.successfulPayment);
+});
+```
+
+---
+
+## Reactions
+
+### Add Reaction
+
+```javascript
+await client.addReaction(chatId, messageId, "👍");
+```
+
+### Remove Reaction
+
+```javascript
+await client.removeReaction(chatId, messageId, "👍");
+```
+
+### Set Reactions
+
+```javascript
+await client.setReactions(chatId, messageId, ["👍", "❤️"]);
+```
+
+### Get Message Reactions
+
+```javascript
+const reactions = await client.getMessageReactions(chatId, messageId);
+```
+
+---
+
+## Poll & Voting
+
+### Mengirim Poll
+
+```javascript
+await client.sendPoll(chatId, "Pertanyaan?", ["Opsi 1", "Opsi 2"], {
+  isAnonymous: false,
+  allowsMultipleAnswers: true,
+  closeDate: new Date(Date.now() + 86400000)
+});
+```
+
+### Stop Poll
+
+```javascript
+await client.stopPoll(chatId, messageId);
+```
+
+### Handler Poll Answer
+
+```javascript
+client.on("update:pollAnswer", async (ctx) => {
+  console.log("Poll dijawab:", ctx.pollAnswer);
 });
 ```
 
@@ -1719,21 +883,29 @@ await client.sendMessage(chatId, "Pesan", {
 
 ## Bot Commands
 
-### Set My Commands
+### Set Commands
 
-```typescript
+```javascript
 await client.setMyCommands([
   { command: "start", description: "Mulai bot" },
   { command: "help", description: "Bantuan" }
-], {
-  scope: { type: "default" }
-});
+]);
 ```
 
-### Get My Commands
+### Get Commands
 
-```typescript
+```javascript
 const commands = await client.getMyCommands();
+```
+
+### Handler Command
+
+```javascript
+client.on("message:text", async (ctx) => {
+  if (ctx.message.text === "/start") {
+    await ctx.reply("Halo!");
+  }
+});
 ```
 
 ---
@@ -1742,34 +914,10 @@ const commands = await client.getMyCommands();
 
 ### Mengirim Pesan Terjadwal
 
-```typescript
-const message = await client.sendMessage(chatId, "Pesan terjadwal", {
-  sendAt: Date.now() + 3600000
+```javascript
+await client.sendMessage(chatId, "Pesan terjadwal", {
+  scheduleDate: new Date(Date.now() + 3600000)
 });
-```
-
-### Mendapatkan Scheduled Messages
-
-```typescript
-const messages = await client.getScheduledMessages(chatId);
-```
-
-### Mengirim Scheduled Message
-
-```typescript
-const message = await client.sendScheduledMessage(chatId, scheduledMessageId);
-```
-
-### Menghapus Scheduled Message
-
-```typescript
-await client.deleteScheduledMessage(chatId, scheduledMessageId);
-```
-
-### Menghapus Scheduled Messages
-
-```typescript
-await client.deleteScheduledMessages(chatId, [1, 2, 3]);
 ```
 
 ---
@@ -1778,7 +926,7 @@ await client.deleteScheduledMessages(chatId, [1, 2, 3]);
 
 ### Transcribe Voice
 
-```typescript
+```javascript
 const transcription = await client.transcribeVoice(chatId, messageId);
 console.log(transcription.text);
 ```
@@ -1787,21 +935,17 @@ console.log(transcription.text);
 
 ## Link Preview
 
-### Mendapatkan Link Preview
+### Get Link Preview
 
-```typescript
-const preview = await client.getLinkPreview("https://example.com", {
-  url: "https://example.com"
-});
+```javascript
+const preview = await client.getLinkPreview("https://example.com");
 ```
 
-### Mengirim Pesan dengan Link Preview
+### Disable Link Preview
 
-```typescript
-await client.sendMessage(chatId, "Check this: https://example.com", {
-  linkPreview: {
-    url: "https://example.com"
-  }
+```javascript
+await client.sendMessage(chatId, "https://example.com", {
+  linkPreview: { disabled: true }
 });
 ```
 
@@ -1811,37 +955,33 @@ await client.sendMessage(chatId, "Check this: https://example.com", {
 
 ### Open Mini App
 
-```typescript
-const miniApp = await client.openMiniApp(botId, chatId, {
-  startParam: "param"
-});
+```javascript
+await client.openMiniApp(chatId, "app_url");
 ```
 
 ---
 
 ## Saved Messages
 
-### Mendapatkan Saved Messages
+### Get Saved Messages
 
-```typescript
-const messages = await client.getSavedMessages(chatId, {
-  limit: 50
-});
+```javascript
+const messages = await client.getSavedMessages();
 ```
 
-### Mendapatkan Saved Chats
+### Get Saved Chats
 
-```typescript
-const savedChats = await client.getSavedChats();
+```javascript
+const chats = await client.getSavedChats();
 ```
 
 ---
 
 ## Common Chats
 
-### Mendapatkan Common Chats
+### Get Common Chats
 
-```typescript
+```javascript
 const chats = await client.getCommonChats(userId);
 ```
 
@@ -1849,46 +989,40 @@ const chats = await client.getCommonChats(userId);
 
 ## Inactive Chats
 
-### Mendapatkan Inactive Chats
+### Get Inactive Chats
 
-```typescript
-const inactiveChats = await client.getInactiveChats();
+```javascript
+const chats = await client.getInactiveChats();
 ```
 
 ---
 
 ## Boosts
 
-### Set Boosts Required
+### Get Boosts
 
-```typescript
-await client.setBoostsRequiredToCircumventRestrictions(chatId, 10);
+```javascript
+const boosts = await client.getBoosts(chatId);
 ```
 
 ---
 
 ## Sticker Set
 
-### Mendapatkan Sticker Set
+### Get Sticker Set
 
-```typescript
-const stickerSet = await client.getStickerSet("sticker_set_name");
-```
-
-### Mendapatkan Custom Emoji Stickers
-
-```typescript
-const stickers = await client.getCustomEmojiStickers("emoji_id");
+```javascript
+const set = await client.getStickerSet("set_name");
 ```
 
 ---
 
 ## Business Connection
 
-### Mendapatkan Business Connection
+### Get Business Connection
 
-```typescript
-const connection = await client.getBusinessConnection(connectionId);
+```javascript
+const connection = await client.getBusinessConnection("connection_id");
 ```
 
 ---
@@ -1897,368 +1031,28 @@ const connection = await client.getBusinessConnection(connectionId);
 
 ### Get Random ID
 
-```typescript
-import { getRandomId } from "@techgram/node";
+```javascript
+import { getRandomId } from "@techwiz/techgram";
 const id = getRandomId();
 ```
 
-### Get Color from Peer ID
-
-```typescript
-import { getColorFromPeerId } from "@techgram/node";
-const color = getColorFromPeerId(peerId);
-```
-
-### Get Color Name
-
-```typescript
-import { getColorName } from "@techgram/node";
-const colorName = getColorName(color);
-```
-
-### Invoke API Langsung
-
-```typescript
-const result = await client.invoke({
-  _: "messages.getChats",
-  hash: 0
-});
-```
-
-### Get Input Peer
-
-```typescript
-const inputPeer = await client.getInputPeer(chatId);
-```
-
-### Get Input Channel
-
-```typescript
-const inputChannel = await client.getInputChannel(channelId);
-```
-
-### Get Input User
-
-```typescript
-const inputUser = await client.getInputUser(userId);
-```
-
-### Mendapatkan Network Statistics
-
-```typescript
-const stats = await client.getNetworkStatistics();
-```
-
-### Mendapatkan Contacts
-
-```typescript
-const contacts = await client.getContacts();
-```
-
-### Add Contact
-
-```typescript
-await client.addContact(userId, {
-  firstName: "Nama",
-  lastName: "Belakang"
-});
-```
-
-### Delete Contact
-
-```typescript
-await client.deleteContact(userId);
-```
-
-### Delete Contacts
-
-```typescript
-await client.deleteContacts([userId1, userId2]);
-```
-
-### Block User
-
-```typescript
-await client.blockUser(userId);
-```
-
-### Unblock User
-
-```typescript
-await client.unblockUser(userId);
-```
-
-### Mendapatkan Translations
-
-```typescript
-const translations = await client.getTranslations();
-```
-
-### Mendapatkan Gifts
-
-```typescript
-const gifts = await client.getGifts();
-```
-
-### Mendapatkan Claimed Gifts
-
-```typescript
-const claimedGifts = await client.getClaimedGifts();
-```
-
-### Mengirim Gift
-
-```typescript
-await client.sendGift(chatId, giftId, {
-  message: "Selamat ulang tahun!"
-});
-```
-
-### Mendapatkan Gift
-
-```typescript
-const gift = await client.getGift("gift_slug");
-```
-
-### Sell Gift
-
-```typescript
-await client.sellGift(userId, messageId);
-```
-
-### Resolve Message Link
-
-```typescript
-const message = await client.resolveMessageLink("https://t.me/username/123");
-```
-
-### Start Bot
-
-```typescript
-const message = await client.startBot(botId, {
-  startParam: "param"
-});
-```
-
-### Get Progress ID
-
-```typescript
-const progressId = await client.getProgressId();
-```
-
-### Handler Upload Progress
-
-```typescript
-client.on("uploadProgress", (ctx) => {
-  console.log(`Upload: ${ctx.progress}%`);
-});
-```
-
-### Handler Download Progress
-
-```typescript
-client.on("downloadProgress", (ctx) => {
-  console.log(`Download: ${ctx.progress}%`);
-});
-```
-
----
-
-## Contoh Lengkap
-
-### Contoh Bot Lengkap (Tanpa CLI Input)
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: "YOUR_BOT_TOKEN"
-});
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo! Selamat datang di bot ini.");
-  } else if (ctx.message.text === "/help") {
-    await ctx.reply("Ini adalah bantuan.");
-  }
-});
-
-client.on("callbackQuery", async (ctx) => {
-  if (ctx.callbackQuery.data === "btn1") {
-    await ctx.answerCallbackQuery({ text: "Diklik!" });
-    await ctx.reply("Tombol diklik!");
-  }
-});
-```
-
-
-**1. Setup Project:**
-```bash
-npm init -y
-npm install github:techwiz37/techgram
-```
-
-**2. package.json:**
-```json
-{
-  "type": "module",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
-  }
-}
-```
-
-**3. index.js:**
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: "YOUR_BOT_TOKEN"
-});
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo! Selamat datang di bot ini.");
-  } else if (ctx.message.text === "/help") {
-    await ctx.reply("Ini adalah bantuan.");
-  }
-});
-
-client.on("callbackQuery", async (ctx) => {
-  if (ctx.callbackQuery.data === "btn1") {
-    await ctx.answerCallbackQuery({ text: "Diklik!" });
-    await ctx.reply("Tombol diklik!");
-  }
-});
-```
-
-**4. Jalankan:**
-```bash
-npm start
-# atau
-node index.js
-```
-
-### Contoh User Client Lengkap (Tanpa CLI Input)
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  phone: "+1234567890",
-  code: "12345",
-  password: "your_password"
-});
-
-client.on("message", async (ctx) => {
-  console.log("Pesan baru:", ctx.message.text);
-  await ctx.reply("Pesan diterima!");
-});
-
-await client.sendMessage(chatId, "Halo dari user client!");
-```
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  phone: "+1234567890",
-  code: "12345",
-  password: "your_password"
-});
-
-client.on("message", async (ctx) => {
-  console.log("Pesan baru:", ctx.message.text);
-  await ctx.reply("Pesan diterima!");
-});
-
-await client.sendMessage(chatId, "Halo dari user client!");
-```
-
-### Contoh Menggunakan Environment Variables
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: parseInt(process.env("API_ID") || process.env.API_ID || "0"),
-  apiHash: process.env("API_HASH") || process.env.API_HASH || "",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
-
-client.on("message", async (ctx) => {
-  await ctx.reply("Halo!");
-});
-```
-
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: parseInt(process.env.API_ID || "0"),
-  apiHash: process.env.API_HASH || "",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
-
-client.on("message", async (ctx) => {
-  await ctx.reply("Halo!");
-});
-```
-
-**File .env:**
-```
-API_ID=12345678
-API_HASH=your_api_hash
-BOT_TOKEN=YOUR_BOT_TOKEN
+### Check Password
+
+```javascript
+import { checkPassword } from "@techwiz/techgram";
+const isValid = await checkPassword(password, hash);
 ```
 
 ---
 
 ## Error Handling
 
-```typescript
+```javascript
 try {
   await client.sendMessage(chatId, "Pesan");
 } catch (error) {
-  if (error instanceof TelegramError) {
-    console.log("Error Telegram:", error.errorMessage);
+  if (error instanceof InputError) {
+    console.log("Input error:", error.message);
   } else {
     console.log("Error lain:", error);
   }
@@ -2267,60 +1061,14 @@ try {
 
 ---
 
-## Storage
+## Best Practices
 
-### Storage Memory
-
-```typescript
-import { StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  storage: new StorageMemory()
-});
-```
-
-### Storage Local Storage
-
-```typescript
-import { StorageLocalStorage } from "@techgram/node";
-
-const client = new Client({
-  storage: new StorageLocalStorage()
-});
-```
-
-### Storage Indexed DB
-
-```typescript
-import { StorageIndexedDb } from "@techgram/node";
-
-const client = new Client({
-  storage: new StorageIndexedDb()
-});
-```
+1. **Gunakan Environment Variables** untuk credentials
+2. **Handle Errors** dengan try-catch
+3. **Gunakan Storage** yang sesuai (Memory untuk testing, persistent untuk production)
+4. **Rate Limiting** - jangan spam request
+5. **Cleanup** - disconnect client saat tidak digunakan
 
 ---
 
-## Tips & Best Practices
-
-1. Selalu handle error dengan try-catch
-2. Gunakan storage yang sesuai dengan environment
-3. Simpan auth string untuk login ulang yang lebih cepat
-4. Gunakan middleware untuk logging atau validasi
-5. Gunakan filter untuk handler yang spesifik
-6. Jangan lupa disconnect saat aplikasi ditutup
-
----
-
-## Environment Variables
-
-- `BOT_TOKEN`: Token bot untuk autentikasi bot
-- `PHONE_NUMBER`: Nomor telepon untuk autentikasi user
-- `VERIFICATION_CODE`: Kode verifikasi untuk autentikasi user
-- `PASSWORD`: Password 2FA untuk autentikasi user (opsional)
-
----
-
-## License
-
-Techgram dibuat open-source di bawah GNU Lesser General Public License version 3.
+**Selamat menggunakan Techgram! 🚀**

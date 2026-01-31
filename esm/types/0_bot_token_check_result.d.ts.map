@@ -1,0 +1,1 @@
+{"version":3,"file":"0_bot_token_check_result.d.ts","sourceRoot":"","sources":["../../src/types/0_bot_token_check_result.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;GAkBG;AAEH,MAAM,CAAC,OAAO,WAAW,mBAAmB,CAAC;IAC3C,wDAAwD;IACxD,UAAiB,QAAQ;QACvB,IAAI,EAAE,WAAW,CAAC;QAClB,MAAM,EAAE,MAAM,CAAC;KAChB;CACF;AAED,2CAA2C;AAC3C,MAAM,MAAM,mBAAmB,GAAG,mBAAmB,CAAC,QAAQ,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"0_worker_request.d.ts","sourceRoot":"","sources":["../../src/client/0_worker_request.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;;GAkBG;AAEH,MAAM,WAAW,aAAa;IAC5B,IAAI,EAAE,SAAS,CAAC;IAChB,QAAQ,EAAE,MAAM,CAAC;IACjB,EAAE,EAAE,MAAM,CAAC;IACX,MAAM,EAAE,YAAY,GAAG,MAAM,CAAC;IAC9B,IAAI,EAAE,OAAO,EAAE,CAAC;CACjB"}

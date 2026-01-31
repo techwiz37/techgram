@@ -1,0 +1,41 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AbortableLoop = void 0;
+const _1_utilities_js_1 = require("../1_utilities.js");
+class AbortableLoop {
+    #body;
+    #onError;
+    constructor(body, onError) {
+        this.#body = body;
+        this.#onError = onError;
+    }
+    #controller;
+    abort() {
+        this.#controller?.abort();
+    }
+    start() {
+        if (this.#controller === undefined) {
+            (0, _1_utilities_js_1.drop)(this.#loop());
+        }
+    }
+    async #loop() {
+        this.#controller?.abort();
+        const controller = this.#controller = new AbortController();
+        try {
+            do {
+                try {
+                    await this.#body(this, controller.signal);
+                }
+                catch (err) {
+                    if (!controller.signal.aborted) {
+                        this.#onError(this, err);
+                    }
+                }
+            } while (!controller.signal.aborted);
+        }
+        finally {
+            this.#controller = undefined;
+        }
+    }
+}
+exports.AbortableLoop = AbortableLoop;
