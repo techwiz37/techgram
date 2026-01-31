@@ -27,7 +27,7 @@ async function buildEsm() {
     target: "node18",
     format: "esm",
     outfile: "dist/esm/mod.js",
-    external: ["lru-cache", "mime-types"],
+    external: ["lru-cache", "mime-types", "ws"],
     banner: {
       js: "// @ts-nocheck",
     },
@@ -40,7 +40,7 @@ async function buildEsm() {
     target: "node18",
     format: "esm",
     outfile: "dist/esm/worker.js",
-    external: ["lru-cache", "mime-types"],
+    external: ["lru-cache", "mime-types", "ws"],
     banner: {
       js: "// @ts-nocheck",
     },
@@ -56,7 +56,7 @@ async function buildCjs() {
     target: "node18",
     format: "cjs",
     outfile: "dist/cjs/mod.js",
-    external: ["lru-cache", "mime-types"],
+    external: ["lru-cache", "mime-types", "ws"],
     banner: {
       js: "// @ts-nocheck",
     },
@@ -69,7 +69,7 @@ async function buildCjs() {
     target: "node18",
     format: "cjs",
     outfile: "dist/cjs/worker.js",
-    external: ["lru-cache", "mime-types"],
+    external: ["lru-cache", "mime-types", "ws"],
     banner: {
       js: "// @ts-nocheck",
     },

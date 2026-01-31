@@ -26632,7 +26632,8 @@ function transportProviderTcp(params) {
   };
 }
 
-// connection/1_connection_web_socket.ts
+// connection/1_connection_web_socket.node.ts
+var import_ws = require("ws");
 var L2 = getLogger("ConnectionWebSocket");
 var errConnectionNotOpen = new ConnectionError("The connection is not open.");
 var ConnectionWebSocket = class {
@@ -26648,33 +26649,34 @@ var ConnectionWebSocket = class {
   }
   #initWs() {
     return new Promise((resolve, reject) => {
-      const webSocket = new WebSocket(this.#url, "binary");
+      const webSocket = new import_ws.WebSocket(this.#url, { binaryType: "arraybuffer" });
       const mutex = new Mutex();
-      webSocket.addEventListener("close", () => {
+      webSocket.on("close", () => {
         this.#rejectRead();
         this.stateChangeHandler?.(false);
       });
-      webSocket.addEventListener("open", () => {
+      webSocket.on("open", () => {
         this.stateChangeHandler?.(true);
         resolve(webSocket);
         L2.debug("connected to", this.#url);
       });
-      webSocket.addEventListener("message", async (e) => {
-        if (typeof e.data === "string") {
+      webSocket.on("message", async (data) => {
+        if (typeof data === "string") {
           return;
         }
         const unlock = await mutex.lock();
-        const data = new Uint8Array(await new Blob([e.data].map((v) => v instanceof Blob || v instanceof Uint8Array ? v : v instanceof ArrayBuffer ? v : unreachable())).arrayBuffer());
-        this.#buffer = concat([this.#buffer, data]);
+        const arrayBuffer = data instanceof ArrayBuffer ? data : data instanceof Buffer ? data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) : unreachable();
+        const uint8Array = new Uint8Array(arrayBuffer);
+        this.#buffer = concat([this.#buffer, uint8Array]);
         if (this.#nextResolve !== null && this.#buffer.length >= this.#nextResolve[0]) {
           this.#nextResolve[1].resolve();
           this.#nextResolve = null;
         }
         unlock();
       });
-      webSocket.addEventListener("error", (err) => {
+      webSocket.on("error", (err) => {
         if (this.#isConnecting) {
-          reject("message" in err ? new ConnectionError(err.message) : new ConnectionError("Failed to connect."));
+          reject(new ConnectionError(err.message || "Failed to connect."));
         }
         if (this.connected) {
           L2.error(err);
@@ -26683,7 +26685,7 @@ var ConnectionWebSocket = class {
     });
   }
   get connected() {
-    return !!this.#webSocket && this.#webSocket.readyState === WebSocket.OPEN;
+    return !!this.#webSocket && this.#webSocket.readyState === import_ws.WebSocket.OPEN;
   }
   #isConnecting = false;
   async open() {
