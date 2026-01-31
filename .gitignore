@@ -1,0 +1,50 @@
+# Dependencies
+node_modules/
+deno.lock
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Deno
+.deno/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional: Uncomment if you want to ignore these
+# *.test.ts
+# *.test.tsx

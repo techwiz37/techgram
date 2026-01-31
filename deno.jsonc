@@ -1,0 +1,24 @@
+{
+  "lock": false,
+  "exports": {
+    ".": "./mod.ts",
+    "./worker": "./worker.ts"
+  },
+  "exclude": [".github/"],
+  "compilerOptions": {
+    "lib": ["dom", "dom.asynciterable", "esnext", "deno.unstable"],
+    "verbatimModuleSyntax": true
+  },
+  "fmt": {
+    "lineWidth": 2000
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["no-node-globals", "no-process-global", "no-import-prefix"],
+      "include": ["verbatim-module-syntax", "eqeqeq", "no-console"]
+    }
+  },
+  "tasks": {
+    "flc": "deno fmt && deno run --allow-read=. --allow-write=. https://raw.githubusercontent.com/Techgram/tools/main/sort_imports.ts && deno run --allow-env=TS_ETW_MODULE_PATH --allow-read=. https://raw.githubusercontent.com/Techgram/tools/main/check_import_levels.ts && deno lint && deno check mod.ts"
+  }
+}

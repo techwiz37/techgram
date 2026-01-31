@@ -1,0 +1,122 @@
+import { unreachable } from "../0_deps.ts";
+import { Api } from "../2_tl.ts";
+import { chatIdToPeerId } from "../tl/2_telegram.ts";
+import { constructLocation, type Location } from "./0_location.ts";
+import type { MessageReference } from "./0_message_reference.ts";
+import { constructReaction, type Reaction, reactionToTlObject } from "./0_reaction.ts";
+import type { PeerGetter } from "./1_chat_p.ts";
+import { constructVenue, type Venue } from "./1_venue.ts";
+
+export interface StoryInteractiveAreaPosition {
+  xPercentage: number;
+  yPercentage: number;
+  widthPercentage: number;
+  heightPercentage: number;
+  rotationAngle: number;
+}
+
+export interface _StoryInteractiveAreaPositionCommon {
+  position: StoryInteractiveAreaPosition;
+}
+
+export interface StoryInteractiveAreaLocation extends _StoryInteractiveAreaPositionCommon {
+  location: Location;
+}
+
+export interface StoryInteractiveAreaVenue extends _StoryInteractiveAreaPositionCommon {
+  venue: Venue;
+}
+
+export interface StoryInteractiveAreaReaction extends _StoryInteractiveAreaPositionCommon {
+  reaction: Reaction;
+  count?: number;
+  isDark?: boolean;
+  isFlipped?: boolean;
+}
+
+export interface StoryInteractiveAreaMessage extends _StoryInteractiveAreaPositionCommon {
+  messageReference: MessageReference;
+}
+
+export type StoryInteractiveArea =
+  | StoryInteractiveAreaLocation
+  | StoryInteractiveAreaVenue
+  | StoryInteractiveAreaReaction
+  | StoryInteractiveAreaMessage;
+
+function constructStoryInteractiveAreaPosition(position: Api.mediaAreaCoordinates): StoryInteractiveAreaPosition {
+  return {
+    xPercentage: position.x,
+    yPercentage: position.y,
+    widthPercentage: position.w,
+    heightPercentage: position.h,
+    rotationAngle: position.rotation,
+  };
+}
+export function constructStoryInteractiveArea(area: Api.MediaArea): StoryInteractiveArea {
+  const position = constructStoryInteractiveAreaPosition(area.coordinates);
+  if (Api.is("mediaAreaGeoPoint", area)) {
+    if (Api.is("geoPointEmpty", area.geo)) {
+      unreachable(); 
+    }
+    const location = constructLocation(area.geo);
+    return { position, location };
+  } else if (Api.is("mediaAreaVenue", area)) {
+    const venue = constructVenue(area);
+    return { position, venue };
+  } else if (Api.is("mediaAreaSuggestedReaction", area)) {
+    const reaction = constructReaction(area.reaction);
+    return {
+      position,
+      reaction,
+      count: 0, 
+      isFlipped: area.flipped ? true : false,
+      isDark: area.dark ? true : false,
+    };
+  } else if (Api.is("mediaAreaChannelPost", area)) {
+    return {
+      position,
+      messageReference: {
+        chatId: Api.peerToChatId(area),
+        messageId: area.msg_id,
+      },
+    };
+  } else {
+    unreachable();
+  }
+}
+
+function storyInteractiveAreaPositionToTlObject(position: StoryInteractiveAreaPosition): Api.mediaAreaCoordinates {
+  return { _: "mediaAreaCoordinates", x: position.xPercentage, y: position.yPercentage, w: position.widthPercentage, h: position.heightPercentage, rotation: position.rotationAngle };
+}
+export function storyInteractiveAreaToTlObject(area: StoryInteractiveArea, getPeer: PeerGetter): Api.MediaArea {
+  const coordinates = storyInteractiveAreaPositionToTlObject(area.position);
+  if ("location" in area) {
+    const geo: Api.geoPoint = { _: "geoPoint", lat: area.location.latitude, long: area.location.longitude, access_hash: 0n, accuracy_radius: area.location.horizontalAccuracy };
+    return { _: "mediaAreaGeoPoint", coordinates, geo };
+  } else if ("venue" in area) {
+    const geo: Api.geoPoint = { _: "geoPoint", lat: area.venue.location.latitude, long: area.venue.location.longitude, access_hash: 0n, accuracy_radius: area.venue.location.horizontalAccuracy };
+    return {
+      _: "mediaAreaVenue",
+      coordinates,
+      geo,
+      address: area.venue.address,
+      provider: "foursquare",
+      title: area.venue.title,
+      venue_id: area.venue.foursquareId || "",
+      venue_type: area.venue.foursquareType || "",
+    };
+  } else if ("reaction" in area) {
+    const reaction = reactionToTlObject(area.reaction);
+    return { _: "mediaAreaSuggestedReaction", coordinates, reaction, dark: area.isDark ? true : undefined, flipped: area.isFlipped ? true : undefined };
+  } else if ("messageReference" in area) {
+    const peer = getPeer(Api.chatIdToPeer(area.messageReference.chatId));
+    if (!peer || peer[0].type !== "channel") {
+      unreachable();
+    }
+    const channel: Api.inputChannel = { _: "inputChannel", channel_id: chatIdToPeerId(peer[0].id), access_hash: peer[1] };
+    return { _: "inputMediaAreaChannelPost", coordinates, channel, msg_id: area.messageReference.messageId };
+  } else {
+    unreachable();
+  }
+}
