@@ -1,8 +1,8 @@
 # Dokumentasi Techgram
 
-Dokumentasi lengkap untuk library Techgram - Cross-runtime JavaScript library untuk membangun Telegram client.
+Dokumentasi lengkap untuk library Techgram - TypeScript/JavaScript library untuk membangun Telegram client di Node.js dan Bun.
 
-**💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)** | **📖 [API Reference](https://deno.land/x/techgram/mod.ts)**
+**💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)**
 
 ## Daftar Isi
 
@@ -38,54 +38,9 @@ Dokumentasi lengkap untuk library Techgram - Cross-runtime JavaScript library un
 
 ## Instalasi
 
-### Node.js
+### Node.js & Bun
 
-**Instalasi dari GitHub:**
-
-Techgram saat ini tersedia melalui GitHub. Install menggunakan:
-
-```bash
-npm install github:techwiz37/techgram
-```
-
-Atau tambahkan di `package.json`:
-```json
-{
-  "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
-  }
-}
-```
-
-Install dari branch/tag tertentu:
-```bash
-npm install github:techwiz37/techgram#main
-npm install github:techwiz37/techgram#v0.1.0
-```
-
-**Persyaratan:**
-- Node.js versi 18.0.0 atau lebih baru
-- **Mendukung ESM dan CommonJS!** Library otomatis memilih format yang tepat
-- **PENTING: Harus build setelah install!**
-
-**⚠️ Build Otomatis**
-
-Library ini akan **otomatis di-build** setelah install melalui `postinstall` script di package.json. Build akan mengkonversi semua file TypeScript (.ts) ke JavaScript (.js) yang bisa dijalankan Node.js.
-
-**Jika build otomatis gagal, build manual:**
-```bash
-cd node_modules/@techgram/node
-npm install  # Install esbuild dan dependencies
-npm run build  # Build TypeScript ke JavaScript
-```
-
-**Mengapa perlu build?**
-- Library ini menggunakan TypeScript (.ts files)
-- Node.js tidak bisa langsung menjalankan .ts files dari node_modules
-- Build akan mengkonversi semua .ts ke .js yang bisa dijalankan Node.js
-- Build otomatis via `postinstall` script setelah `npm install`
-
-**Setup package.json:**
+**1. Setup `package.json`:**
 
 **ES Modules (ESM):**
 ```json
@@ -117,18 +72,15 @@ npm run build  # Build TypeScript ke JavaScript
 }
 ```
 
-**Import (ESM):**
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
+**2. Install dependencies:**
+```bash
+npm install
 ```
 
-**Require (CommonJS):**
+**3. Buat file `index.js`:**
+
+**ESM:**
 ```javascript
-const { Client, StorageMemory } = require("@techgram/node");
-```
-
-**Contoh Lengkap:**
-```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
@@ -149,35 +101,44 @@ client.on("message", async (ctx) => {
 });
 ```
 
-### Deno
-```typescript
-import { Client } from "https://deno.land/x/techgram/mod.ts";
-```
+**CommonJS:**
+```javascript
+const { Client, StorageMemory } = require("@techgram/node");
 
-### Browser
-```html
-<script type="module">
-  import { Client } from "https://esm.sh/jsr/@techgram/techgram";
-</script>
-```
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
 
-### Bun
-```bash
-bun add github:techwiz37/techgram
-```
+await client.connect();
+await client.start({
+  botToken: "YOUR_BOT_TOKEN"
+});
 
-Atau di `package.json`:
-```json
-{
-  "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
+client.on("message", async (ctx) => {
+  if (ctx.message.text === "/start") {
+    await ctx.reply("Halo!");
   }
-}
+});
 ```
 
-```typescript
-import { Client } from "@techgram/node";
+**4. Jalankan:**
+
+**Node.js:**
+```bash
+npm start
 ```
+
+**Bun:**
+```bash
+bun run index.js
+```
+
+**Persyaratan:**
+- Node.js versi 18.0.0 atau lebih baru, atau Bun.js
+- Library otomatis mendukung ESM dan CommonJS
+- TypeScript support (opsional)
 
 ---
 
@@ -185,9 +146,8 @@ import { Client } from "@techgram/node";
 
 ### Membuat Client
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -196,7 +156,6 @@ const client = new Client({
 });
 ```
 
-**Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -217,9 +176,8 @@ await client.connect();
 
 **Cara 1: Langsung Pass Bot Token**
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -236,7 +194,6 @@ const me = await client.getMe();
 console.log("Bot:", me.username);
 ```
 
-**Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -261,9 +218,8 @@ console.log("Bot:", me.username);
 export BOT_TOKEN="YOUR_BOT_TOKEN"
 ```
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -275,7 +231,6 @@ await client.connect();
 await client.start();
 ```
 
-**Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -291,25 +246,6 @@ await client.start();
 
 **Cara 3: Menggunakan Deno.env atau process.env**
 
-**Deno:**
-```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: Deno.env.get("BOT_TOKEN") || process.env.BOT_TOKEN || ""
-});
-```
-
-### Autentikasi User (Tanpa CLI Input)
-
-**Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -321,7 +257,24 @@ const client = new Client({
 
 await client.connect();
 await client.start({
-  botToken: Deno.env.get("BOT_TOKEN") || process.env.BOT_TOKEN || ""
+  botToken: process.env("BOT_TOKEN") || process.env.BOT_TOKEN || ""
+});
+```
+
+### Autentikasi User (Tanpa CLI Input)
+
+```typescript
+import { Client, StorageMemory } from "@techgram/node";
+
+const client = new Client({
+  apiId: 12345678,
+  apiHash: "your_api_hash",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start({
+  botToken: process.env("BOT_TOKEN") || process.env.BOT_TOKEN || ""
 });
 ```
 
@@ -329,9 +282,8 @@ await client.start({
 
 **Cara 1: Langsung Pass Credentials**
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -359,7 +311,7 @@ export PASSWORD="your_password"
 ```
 
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -374,7 +326,7 @@ await client.start();
 **Cara 3: Menggunakan Callback untuk Code & Password (Dynamic)**
 
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -397,7 +349,7 @@ await client.start({
 **Cara 4: Menggunakan Deno.env atau process.env**
 
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -407,9 +359,9 @@ const client = new Client({
 
 await client.connect();
 await client.start({
-  phone: Deno.env.get("PHONE_NUMBER") || process.env.PHONE_NUMBER || "",
-  code: Deno.env.get("VERIFICATION_CODE") || process.env.VERIFICATION_CODE || "",
-  password: Deno.env.get("PASSWORD") || process.env.PASSWORD || ""
+  phone: process.env("PHONE_NUMBER") || process.env.PHONE_NUMBER || "",
+  code: process.env("VERIFICATION_CODE") || process.env.VERIFICATION_CODE || "",
+  password: process.env("PASSWORD") || process.env.PASSWORD || ""
 });
 ```
 
@@ -1946,21 +1898,21 @@ const connection = await client.getBusinessConnection(connectionId);
 ### Get Random ID
 
 ```typescript
-import { getRandomId } from "https://deno.land/x/techgram/mod.ts";
+import { getRandomId } from "@techgram/node";
 const id = getRandomId();
 ```
 
 ### Get Color from Peer ID
 
 ```typescript
-import { getColorFromPeerId } from "https://deno.land/x/techgram/mod.ts";
+import { getColorFromPeerId } from "@techgram/node";
 const color = getColorFromPeerId(peerId);
 ```
 
 ### Get Color Name
 
 ```typescript
-import { getColorName } from "https://deno.land/x/techgram/mod.ts";
+import { getColorName } from "@techgram/node";
 const colorName = getColorName(color);
 ```
 
@@ -2116,9 +2068,8 @@ client.on("downloadProgress", (ctx) => {
 
 ### Contoh Bot Lengkap (Tanpa CLI Input)
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -2147,7 +2098,6 @@ client.on("callbackQuery", async (ctx) => {
 });
 ```
 
-**Node.js:**
 
 **1. Setup Project:**
 ```bash
@@ -2208,9 +2158,8 @@ node index.js
 
 ### Contoh User Client Lengkap (Tanpa CLI Input)
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
   apiId: 12345678,
@@ -2233,7 +2182,6 @@ client.on("message", async (ctx) => {
 await client.sendMessage(chatId, "Halo dari user client!");
 ```
 
-**Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -2260,13 +2208,12 @@ await client.sendMessage(chatId, "Halo dari user client!");
 
 ### Contoh Menggunakan Environment Variables
 
-**Deno:**
 ```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
-  apiId: parseInt(Deno.env.get("API_ID") || process.env.API_ID || "0"),
-  apiHash: Deno.env.get("API_HASH") || process.env.API_HASH || "",
+  apiId: parseInt(process.env("API_ID") || process.env.API_ID || "0"),
+  apiHash: process.env("API_HASH") || process.env.API_HASH || "",
   storage: new StorageMemory(),
 });
 
@@ -2278,7 +2225,6 @@ client.on("message", async (ctx) => {
 });
 ```
 
-**Node.js:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 
@@ -2326,7 +2272,7 @@ try {
 ### Storage Memory
 
 ```typescript
-import { StorageMemory } from "https://deno.land/x/techgram/mod.ts";
+import { StorageMemory } from "@techgram/node";
 
 const client = new Client({
   storage: new StorageMemory()
@@ -2336,7 +2282,7 @@ const client = new Client({
 ### Storage Local Storage
 
 ```typescript
-import { StorageLocalStorage } from "https://deno.land/x/techgram/mod.ts";
+import { StorageLocalStorage } from "@techgram/node";
 
 const client = new Client({
   storage: new StorageLocalStorage()
@@ -2346,7 +2292,7 @@ const client = new Client({
 ### Storage Indexed DB
 
 ```typescript
-import { StorageIndexedDb } from "https://deno.land/x/techgram/mod.ts";
+import { StorageIndexedDb } from "@techgram/node";
 
 const client = new Client({
   storage: new StorageIndexedDb()

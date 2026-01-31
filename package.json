@@ -1,14 +1,17 @@
 {
   "name": "@techgram/node",
   "version": "0.0.1",
-  "description": "Cross-runtime JavaScript library for building Telegram clients",
+  "description": "TypeScript/JavaScript library for building Telegram clients on Node.js and Bun",
   "keywords": [
     "telegram",
     "telegram-client",
     "telegram-bot",
     "telegram-api",
-    "deno",
-    "typescript"
+    "nodejs",
+    "bun",
+    "typescript",
+    "esm",
+    "commonjs"
   ],
   "homepage": "https://github.com/techwiz37/techgram#readme",
   "bugs": {
@@ -26,34 +29,20 @@
   "types": "./mod.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./mod.ts",
-        "default": "./dist/esm/mod.js"
-      },
-      "require": {
-        "types": "./mod.ts",
-        "default": "./dist/cjs/mod.js"
-      },
-      "types": "./mod.ts"
+      "types": "./mod.ts",
+      "import": "./dist/esm/mod.js",
+      "require": "./dist/cjs/mod.js",
+      "default": "./dist/esm/mod.js"
     },
     "./worker": {
-      "import": {
-        "types": "./worker.ts",
-        "default": "./dist/esm/worker.js"
-      },
-      "require": {
-        "types": "./worker.ts",
-        "default": "./dist/cjs/worker.js"
-      },
-      "types": "./worker.ts"
+      "types": "./worker.ts",
+      "import": "./dist/esm/worker.js",
+      "require": "./dist/cjs/worker.js",
+      "default": "./dist/esm/worker.js"
     }
   },
   "scripts": {
-    "test": "deno test --allow-all",
-    "build": "node build-dual.js",
-    "build:node": "node build-dual.js",
-    "build:esm": "node build-dual.js",
-    "build:cjs": "node build-dual.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "node postinstall.js"
   },
   "devDependencies": {

@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-deno.lock
 
 # Build outputs
 dist/
@@ -39,18 +38,14 @@ coverage/
 *.temp
 .cache/
 
-# Deno
-.deno/
 
 # TypeScript
 *.tsbuildinfo
 
-# Build output
-dist/
+# Build output - KEEP dist/ untuk pre-built files
+# dist/ folder akan di-commit ke GitHub agar bisa langsung digunakan
 build/
 *.js.map
-dist/esm/
-dist/cjs/
 
 # Scripts (don't push deployment scripts)
 run.sh

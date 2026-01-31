@@ -2,14 +2,13 @@
 
 # 🚀 Techgram
 
-**Library JavaScript Cross-Runtime untuk Membangun Telegram Client yang Powerful & Modern**
+**Library TypeScript/JavaScript untuk Membangun Telegram Client di Node.js & Bun**
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Deno](https://img.shields.io/badge/Deno-000000?style=for-the-badge&logo=deno&logoColor=white)](https://deno.land/)
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-LGPL%203.0-green.svg?style=for-the-badge)](./COPYING.LESSER)
 
-**📚 [Lihat Dokumentasi Lengkap](./docs.md)** | **💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)** | **📖 [API Reference](https://deno.land/x/techgram/mod.ts)**
+**📚 [Lihat Dokumentasi Lengkap](./docs.md)** | **💬 [Discussion Chat](https://t.me/techgramchat)** | **📢 [Channel](https://t.me/techwizch)** | **👨‍💻 [Developer](https://t.me/techwiz37)**
 
 </div>
 
@@ -21,7 +20,7 @@ Techgram adalah library modern yang dirancang khusus untuk membangun Telegram cl
 
 ### 🎯 Keunggulan Utama
 
-- **🌐 Cross-Runtime Support** - Berjalan di Node.js, Deno, Browser, dan Bun tanpa perubahan kode. Satu kode, berjalan di mana saja!
+- **🌐 Node.js & Bun Ready** - Dibangun khusus untuk Node.js dan Bun dengan dukungan ESM dan CommonJS. Siap pakai tanpa setup tambahan!
 
 - **🛡️ Type-Safe & Modern** - Dibangun dengan TypeScript dengan type definitions yang akurat. Auto-complete dan type checking yang lengkap untuk pengalaman coding yang lebih baik.
 
@@ -43,17 +42,9 @@ Techgram adalah library modern yang dirancang khusus untuk membangun Telegram cl
 
 ### Instalasi
 
-**Node.js (dari GitHub):**
-```bash
-npm install github:techwiz37/techgram
-```
+**1. Setup `package.json`:**
 
-**Catatan:** Techgram saat ini tersedia melalui GitHub. Install menggunakan:
-```bash
-npm install github:techwiz37/techgram
-```
-
-Atau tambahkan di `package.json`:
+Tambahkan dependency di `package.json`:
 ```json
 {
   "dependencies": {
@@ -62,51 +53,15 @@ Atau tambahkan di `package.json`:
 }
 ```
 
-Atau tambahkan di `package.json`:
-```json
-{
-  "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
-  }
-}
-```
-
-**Persyaratan Node.js:**
-- Node.js versi 18.0.0 atau lebih baru
-- TypeScript (opsional, untuk type support)
-- **Mendukung ESM dan CommonJS!** Library otomatis memilih format yang tepat
-
-**Setup Project Node.js:**
-
-1. Buat project baru:
+**2. Install dependencies:**
 ```bash
-mkdir my-telegram-bot
-cd my-telegram-bot
-npm init -y
-```
-
-2. Install Techgram dari GitHub:
-```bash
-npm install github:techwiz37/techgram
-```
-
-3. **Build otomatis setelah install!**
-
-Library ini akan **otomatis di-build** setelah install melalui `postinstall` script. Jika build gagal, build manual:
-
-```bash
-cd node_modules/@techgram/node
 npm install
-npm run build
 ```
 
-**Mengapa perlu build?**
-- Library ini menggunakan TypeScript (.ts)
-- Node.js tidak bisa langsung menjalankan .ts files dari node_modules
-- Build akan mengkonversi .ts ke .js yang bisa dijalankan Node.js
-- Build otomatis via `postinstall` script
-
-4. Setup package.json:
+**Persyaratan:**
+- Node.js versi 18.0.0 atau lebih baru, atau Bun.js
+- Library otomatis mendukung ESM dan CommonJS
+- TypeScript support (opsional)
 
 **Untuk ES Modules (ESM):**
 ```json
@@ -157,113 +112,37 @@ client.on("message", async (ctx) => {
 ```
 
 5. Jalankan:
+
+**Node.js:**
 ```bash
-node index.js
-# atau dengan TypeScript
-npx tsx index.ts
-```
-
-**Deno:**
-```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
-```
-
-**Browser:**
-```html
-<script type="module">
-  import { Client } from "https://esm.sh/jsr/@techgram/techgram";
-</script>
+npm start
 ```
 
 **Bun:**
 ```bash
-bun add github:techwiz37/techgram
+bun run index.js
 ```
 
-Atau di `package.json`:
-```json
-{
-  "dependencies": {
-    "@techgram/node": "github:techwiz37/techgram"
-  }
-}
-```
+### Menggunakan Environment Variables
 
-### Contoh Sederhana - Bot
-
-**Deno:**
-```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: "YOUR_BOT_TOKEN"
-});
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo! Selamat datang! 🎉");
-  }
-});
-```
-
-**Node.js:**
-```typescript
-import { Client, StorageMemory } from "@techgram/node";
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  botToken: "YOUR_BOT_TOKEN"
-});
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo! Selamat datang! 🎉");
-  }
-});
-```
-
-**Catatan:** Install dari GitHub:
-```bash
-npm install github:techwiz37/techgram
-```
-
-### Menggunakan Environment Variables (Tanpa CLI!)
-
+**Setup environment variables:**
 ```bash
 export BOT_TOKEN="YOUR_BOT_TOKEN"
 export API_ID=12345678
 export API_HASH="your_api_hash"
 ```
 
-**Deno:**
-```typescript
-import { Client, StorageMemory } from "https://deno.land/x/techgram/mod.ts";
-
-const client = new Client({
-  apiId: parseInt(Deno.env.get("API_ID") || process.env.API_ID || "0"),
-  apiHash: Deno.env.get("API_HASH") || process.env.API_HASH || "",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
+**Atau buat file `.env`:**
+```
+BOT_TOKEN=YOUR_BOT_TOKEN
+API_ID=12345678
+API_HASH=your_api_hash
 ```
 
-**Node.js:**
-```typescript
+**Contoh dengan environment variables:**
+
+**ESM:**
+```javascript
 import { Client, StorageMemory } from "@techgram/node";
 
 const client = new Client({
@@ -280,9 +159,22 @@ client.on("message", async (ctx) => {
 });
 ```
 
-**Install dari GitHub:**
-```bash
-npm install github:techwiz37/techgram
+**CommonJS:**
+```javascript
+const { Client, StorageMemory } = require("@techgram/node");
+
+const client = new Client({
+  apiId: parseInt(process.env.API_ID || "0"),
+  apiHash: process.env.API_HASH || "",
+  storage: new StorageMemory(),
+});
+
+await client.connect();
+await client.start();
+
+client.on("message", async (ctx) => {
+  await ctx.reply("Halo!");
+});
 ```
 
 ---
@@ -382,8 +274,7 @@ Techgram cocok untuk berbagai use case:
 
 - **TypeScript** - Type-safe development
 - **Modern JavaScript** - ES6+ features
-- **Web APIs** - Portable dan modern
-- **Cross-Runtime** - Node.js, Deno, Browser, Bun
+- **Node.js** - ESM dan CommonJS support
 
 ---
 
@@ -517,6 +408,6 @@ Lihat [COPYING](./COPYING) dan [COPYING.LESSER](./COPYING.LESSER) untuk detail l
 
 **⭐ Star repository ini jika Techgram membantu Anda!**
 
-[📚 Dokumentasi Lengkap](./docs.md) | [💬 Discussion Chat](https://t.me/techgramchat) | [📢 Channel](https://t.me/techwizch) | [👨‍💻 Developer](https://t.me/techwiz37) | [📖 API Reference](https://deno.land/x/techgram/mod.ts)
+[📚 Dokumentasi Lengkap](./docs.md) | [💬 Discussion Chat](https://t.me/techgramchat) | [📢 Channel](https://t.me/techwizch) | [👨‍💻 Developer](https://t.me/techwiz37)
 
 </div>
