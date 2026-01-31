@@ -231,11 +231,26 @@ function concat(...arrays) {
 }
 var LruCache = class {
   cache;
-  constructor(options) {
-    this.cache = new LRUCache({
-      max: options.max,
-      ttl: options.ttl
-    });
+  constructor(max) {
+    let config;
+    if (typeof max === "number") {
+      config = { max };
+    } else {
+      config = {};
+      if (max.max !== void 0) {
+        config.max = max.max;
+      }
+      if (max.maxSize !== void 0) {
+        config.maxSize = max.maxSize;
+      }
+      if (max.ttl !== void 0) {
+        config.ttl = max.ttl;
+      }
+      if (config.max === void 0 && config.maxSize === void 0 && config.ttl === void 0) {
+        config.max = 1e3;
+      }
+    }
+    this.cache = new LRUCache(config);
   }
   get(key) {
     return this.cache.get(key);

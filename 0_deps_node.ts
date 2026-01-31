@@ -90,11 +90,29 @@ export function concat(...arrays: Uint8Array[]): Uint8Array {
 export class LruCache<K, V> {
   private cache: LRUCache<K, V>;
 
-  constructor(options: { max: number; ttl?: number }) {
-    this.cache = new LRUCache<K, V>({
-      max: options.max,
-      ttl: options.ttl,
-    });
+  constructor(max: number | { max?: number; maxSize?: number; ttl?: number }) {
+    let config: any;
+    
+    if (typeof max === "number") {
+      config = { max };
+    } else {
+      config = {};
+      if (max.max !== undefined) {
+        config.max = max.max;
+      }
+      if (max.maxSize !== undefined) {
+        config.maxSize = max.maxSize;
+      }
+      if (max.ttl !== undefined) {
+        config.ttl = max.ttl;
+      }
+      
+      if (config.max === undefined && config.maxSize === undefined && config.ttl === undefined) {
+        config.max = 1000;
+      }
+    }
+    
+    this.cache = new LRUCache<K, V>(config);
   }
 
   get(key: K): V | undefined {
