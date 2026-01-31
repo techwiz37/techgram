@@ -45,9 +45,16 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 
+# Build output
+dist/
+build/
+*.js.map
+
 # Scripts (don't push deployment scripts)
 run.sh
 run.ps1
+build-node.sh
+build-node.ps1
 
 # Optional: Uncomment if you want to ignore these
 # *.test.ts

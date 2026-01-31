@@ -90,13 +90,23 @@ npm init -y
 npm install github:techwiz37/techgram
 ```
 
-Atau install dari branch/tag tertentu:
+3. **Build otomatis setelah install!**
+
+Library ini akan **otomatis di-build** setelah install melalui `postinstall` script. Jika build gagal, build manual:
+
 ```bash
-npm install github:techwiz37/techgram#main
-npm install github:techwiz37/techgram#v0.1.0
+cd node_modules/@techgram/node
+npm install
+npm run build
 ```
 
-3. Setup package.json untuk ES Modules:
+**Mengapa perlu build?**
+- Library ini menggunakan TypeScript (.ts)
+- Node.js tidak bisa langsung menjalankan .ts files dari node_modules
+- Build akan mengkonversi .ts ke .js yang bisa dijalankan Node.js
+- Build otomatis via `postinstall` script
+
+4. Setup package.json untuk ES Modules:
 ```json
 {
   "type": "module",

@@ -66,6 +66,24 @@ npm install github:techwiz37/techgram#v0.1.0
 **Persyaratan:**
 - Node.js versi 18.0.0 atau lebih baru
 - Package harus menggunakan ES Modules
+- **PENTING: Harus build setelah install!**
+
+**⚠️ Build Otomatis**
+
+Library ini akan **otomatis di-build** setelah install melalui `postinstall` script di package.json. Build akan mengkonversi semua file TypeScript (.ts) ke JavaScript (.js) yang bisa dijalankan Node.js.
+
+**Jika build otomatis gagal, build manual:**
+```bash
+cd node_modules/@techgram/node
+npm install  # Install esbuild dan dependencies
+npm run build  # Build TypeScript ke JavaScript
+```
+
+**Mengapa perlu build?**
+- Library ini menggunakan TypeScript (.ts files)
+- Node.js tidak bisa langsung menjalankan .ts files dari node_modules
+- Build akan mengkonversi semua .ts ke .js yang bisa dijalankan Node.js
+- Build otomatis via `postinstall` script setelah `npm install`
 
 **Setup package.json:**
 ```json

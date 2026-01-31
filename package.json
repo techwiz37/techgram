@@ -22,12 +22,27 @@
   "author": "Techwiz",
   "type": "module",
   "exports": {
-    ".": "./mod.ts",
-    "./worker": "./worker.ts"
+    ".": {
+      "import": "./dist/mod.js",
+      "types": "./mod.ts"
+    },
+    "./worker": {
+      "import": "./dist/worker.js",
+      "types": "./worker.ts"
+    }
   },
-  "main": "mod.ts",
+  "main": "./dist/mod.js",
+  "types": "./mod.ts",
   "scripts": {
-    "test": "deno test --allow-all"
+    "test": "deno test --allow-all",
+    "build": "node build-node.js",
+    "build:node": "node build-node.js",
+    "postinstall": "npm run build:node",
+    "prepublishOnly": "npm run build:node"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.0",
+    "glob": "^10.3.10"
   },
   "engines": {
     "node": ">=18.0.0"
