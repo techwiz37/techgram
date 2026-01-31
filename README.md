@@ -17,9 +17,54 @@ TypeScript/JavaScript library untuk membangun Telegram client di Node.js dan Bun
 
 > Catatan: Techgram belum mencapai versi 1.0.0. Meskipun dapat berjalan di production, kami saat ini tidak merekomendasikan untuk digunakan pada proyek-proyek kritis.
 
+## Instalasi
+
+### 1. Tambahkan ke `package.json`
+
+**ES Modules (ESM):**
+```json
+{
+  "name": "my-telegram-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techwiz/techgram": "github:techwiz37/techgram"
+  }
+}
+```
+
+**CommonJS:**
+```json
+{
+  "name": "my-telegram-bot",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techwiz/techgram": "github:techwiz37/techgram"
+  }
+}
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+**Atau dengan Bun:**
+```bash
+bun add github:techwiz37/techgram
+```
+
 ## Memulai
 
-### Node.js
+### Bot (Bot Token)
 
 **Menggunakan Environment Variables (Tanpa CLI):**
 
@@ -71,20 +116,6 @@ client.on("message", async (ctx) => {
 });
 ```
 
-**Install dari GitHub:**
-
-```json
-{
-  "dependencies": {
-    "@techwiz/techgram": "github:techwiz37/techgram"
-  }
-}
-```
-
-```bash
-npm install
-```
-
 ### User Account (Bukan Bot)
 
 **Menggunakan Environment Variables:**
@@ -120,99 +151,6 @@ client.on("message", async (ctx) => {
 
 ```javascript
 const { Client, StorageMemory } = require("@techwiz/techgram");
-
-const client = new Client({
-  apiId: 12345678,
-  apiHash: "your_api_hash",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start({
-  phone: "+1234567890",
-  code: "12345",
-  password: "your_password"
-});
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo dari user account!");
-  }
-});
-```
-
-**Catatan:** Untuk user account, jika akun memiliki 2FA (Two-Factor Authentication), Anda perlu menyediakan `PASSWORD`. Jika tidak, cukup `PHONE_NUMBER` dan `VERIFICATION_CODE`.
-
-### Bun
-
-**Menggunakan Environment Variables:**
-
-```bash
-export BOT_TOKEN="YOUR_BOT_TOKEN"
-export API_ID=12345678
-export API_HASH="your_api_hash"
-```
-
-```javascript
-import { Client, StorageMemory } from "@techwiz/techgram";
-
-const client = new Client({
-  apiId: parseInt(process.env.API_ID || "0"),
-  apiHash: process.env.API_HASH || "",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo!");
-  }
-});
-```
-
-**Install dari GitHub:**
-
-```bash
-bun add github:techwiz37/techgram
-```
-
-### User Account (Bukan Bot)
-
-**Menggunakan Environment Variables:**
-
-```bash
-export PHONE_NUMBER="+1234567890"
-export VERIFICATION_CODE="12345"
-export PASSWORD="your_password"
-export API_ID=12345678
-export API_HASH="your_api_hash"
-```
-
-```javascript
-import { Client, StorageMemory } from "@techwiz/techgram";
-
-const client = new Client({
-  apiId: parseInt(process.env.API_ID || "0"),
-  apiHash: process.env.API_HASH || "",
-  storage: new StorageMemory(),
-});
-
-await client.connect();
-await client.start();
-
-client.on("message", async (ctx) => {
-  if (ctx.message.text === "/start") {
-    await ctx.reply("Halo dari user account!");
-  }
-});
-```
-
-**Atau dengan Parameter Langsung:**
-
-```javascript
-import { Client, StorageMemory } from "@techwiz/techgram";
 
 const client = new Client({
   apiId: 12345678,

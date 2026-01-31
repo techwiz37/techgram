@@ -288,6 +288,23 @@ await client.sendLocation(chatId, -6.2088, 106.8456, {
 await client.sendContact(chatId, "+1234567890", "John Doe");
 ```
 
+### Mengirim Venue
+
+```javascript
+await client.sendVenue(chatId, -6.2088, 106.8456, {
+  title: "Lokasi",
+  address: "Alamat lengkap"
+});
+```
+
+### Mengirim Inline Query
+
+```javascript
+await client.sendInlineQuery(chatId, "query", {
+  offset: "0"
+});
+```
+
 ### Mengirim Poll
 
 ```javascript
@@ -447,6 +464,22 @@ const channel = await client.createChannel("Nama Channel", {
 });
 ```
 
+### Membuat Supergroup
+
+```javascript
+const supergroup = await client.createSupergroup("Nama Supergroup", {
+  description: "Deskripsi supergroup"
+});
+```
+
+### Send Chat Action
+
+```javascript
+await client.sendChatAction(chatId, "typing");
+await client.sendChatAction(chatId, "upload_photo");
+await client.sendChatAction(chatId, "record_voice");
+```
+
 ### Mengubah Foto Chat
 
 ```javascript
@@ -477,6 +510,34 @@ await client.unarchiveChat(chatId);
 ```javascript
 await client.muteChat(chatId, { until: new Date(Date.now() + 3600000) });
 await client.unmuteChat(chatId);
+```
+
+### Get Chats
+
+```javascript
+const chats = await client.getChats();
+```
+
+### Get History
+
+```javascript
+const messages = await client.getHistory(chatId, {
+  limit: 100
+});
+```
+
+### Search Messages
+
+```javascript
+const messages = await client.searchMessages(chatId, {
+  query: "kata kunci"
+});
+```
+
+### Open Chat
+
+```javascript
+await client.openChat(chatId);
 ```
 
 ---
@@ -620,6 +681,12 @@ await client.setBirthday({
 await client.setEmojiStatus("emoji_id");
 ```
 
+### Set User Emoji Status
+
+```javascript
+await client.setUserEmojiStatus(userId, "emoji_id");
+```
+
 ### Set Name Color
 
 ```javascript
@@ -645,6 +712,69 @@ await client.setLocation({
 
 ```javascript
 await client.setOnline(true);
+```
+
+### Set Personal Channel
+
+```javascript
+await client.setPersonalChannel(channelId);
+```
+
+### Set My Description
+
+```javascript
+await client.setMyDescription({
+  description: "Deskripsi saya"
+});
+```
+
+### Get My Description
+
+```javascript
+const description = await client.getMyDescription();
+```
+
+### Set My Short Description
+
+```javascript
+await client.setMyShortDescription({
+  shortDescription: "Deskripsi singkat"
+});
+```
+
+### Get My Short Description
+
+```javascript
+const shortDescription = await client.getMyShortDescription();
+```
+
+### Username Management
+
+```javascript
+await client.showUsername(chatId, "username");
+await client.hideUsername(chatId, "username");
+await client.reorderUsernames(chatId, ["username1", "username2"]);
+await client.hideUsernames(chatId);
+```
+
+### Block & Unblock User
+
+```javascript
+await client.blockUser(userId);
+await client.unblockUser(userId);
+```
+
+### Contacts Management
+
+```javascript
+const contacts = await client.getContacts();
+await client.addContact(userId, {
+  firstName: "John",
+  lastName: "Doe",
+  phone: "+1234567890"
+});
+await client.deleteContact(userId);
+await client.deleteContacts([userId1, userId2]);
 ```
 
 ---
@@ -676,6 +806,22 @@ await client.promoteChatMember(chatId, userId, {
   canDeleteMessages: true,
   canRestrictMembers: true
 });
+```
+
+### Set Chat Member Rights
+
+```javascript
+await client.setChatMemberRights(chatId, userId, {
+  canSendMessages: true,
+  canSendMedia: true,
+  canSendPolls: true
+});
+```
+
+### Set Signatures Enabled
+
+```javascript
+await client.setSignaturesEnabled(chatId, true);
 ```
 
 ### Invite Link
@@ -788,6 +934,24 @@ await client.downloadLiveStreamSegment(chatId, {
 });
 ```
 
+### Leave Video Chat
+
+```javascript
+await client.leaveVideoChat(videoChatId);
+```
+
+### Get Video Chat
+
+```javascript
+const videoChat = await client.getVideoChat(videoChatId);
+```
+
+### Get Live Stream Channels
+
+```javascript
+const channels = await client.getLiveStreamChannels(videoChatId);
+```
+
 ---
 
 ## Payment & Invoice
@@ -821,6 +985,12 @@ client.on("update:preCheckoutQuery", async (ctx) => {
 client.on("message:successfulPayment", async (ctx) => {
   console.log("Pembayaran berhasil:", ctx.message.successfulPayment);
 });
+```
+
+### Refund Star Payment
+
+```javascript
+await client.refundStarPayment(userId, telegramPaymentChargeId);
 ```
 
 ---
@@ -1023,6 +1193,46 @@ const set = await client.getStickerSet("set_name");
 
 ```javascript
 const connection = await client.getBusinessConnection("connection_id");
+```
+
+---
+
+## Translations
+
+### Get Translations
+
+```javascript
+const translations = await client.getTranslations({
+  languages: ["en", "id"]
+});
+```
+
+---
+
+## Gifts
+
+### Get Gifts
+
+```javascript
+const gifts = await client.getGifts();
+```
+
+### Send Gift
+
+```javascript
+await client.sendGift(chatId, giftId);
+```
+
+### Sell Gift
+
+```javascript
+await client.sellGift(userId, messageId);
+```
+
+### Get Claimed Gifts
+
+```javascript
+const claimedGifts = await client.getClaimedGifts(chatId);
 ```
 
 ---
