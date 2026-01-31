@@ -14,6 +14,11 @@ if (existsSync(distEsm) && existsSync(distCjs)) {
   }
 }
 
-console.log("✅ Techgram installed successfully!");
-console.log("📦 Library is pre-built and ready to use.");
+console.log("⚠️  Techgram: Pre-built files not found!");
+console.log("");
+console.log("Library ini perlu di-build dulu:");
+console.log("  1. Run: npm run build");
+console.log("  2. Commit dist/ ke GitHub: git add dist/ && git commit -m 'Add dist files' && git push");
+console.log("");
+console.log("Lihat BUILD_INSTRUCTIONS.md untuk detail lengkap.");
 process.exit(0);

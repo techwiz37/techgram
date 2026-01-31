@@ -63,6 +63,8 @@ npm install
 - Library otomatis mendukung ESM dan CommonJS
 - TypeScript support (opsional)
 
+**Catatan:** Library sudah pre-built dan siap digunakan. File `dist/` sudah di-commit ke GitHub, jadi tidak perlu build manual.
+
 **Untuk ES Modules (ESM):**
 ```json
 {

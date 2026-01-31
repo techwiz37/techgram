@@ -2,8 +2,8 @@
 node_modules/
 
 # Build outputs
-dist/
-build/
+# dist/ TIDAK di-ignore - HARUS di-commit ke GitHub agar user bisa langsung pakai
+# build/
 *.tsbuildinfo
 
 # Environment variables
@@ -44,6 +44,7 @@ coverage/
 
 # Build output - KEEP dist/ untuk pre-built files
 # dist/ folder akan di-commit ke GitHub agar bisa langsung digunakan
+# dist/ TIDAK di-ignore agar bisa di-commit
 build/
 *.js.map
 

@@ -43,11 +43,17 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js",
     "postinstall": "node postinstall.js"
+  },
+  "dependencies": {
+    "lru-cache": "^10.0.0",
+    "mime-types": "^2.1.35"
   },
   "devDependencies": {
     "esbuild": "^0.19.12",
-    "glob": "^10.5.0"
+    "glob": "^10.5.0",
+    "typescript": "^5.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
