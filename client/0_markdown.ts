@@ -273,7 +273,7 @@ export function parseMarkdown(text_: string): [string, MessageEntity[]] {
         }
         case "customEmoji": {
           if (text[i + 1] !== CODEPOINTS["("]) {
-            throw new InputError("Custom emoji entities must contain a tg:
+            throw new InputError("Custom emoji entities must contain a tg:emoji URL.");
           }
           i += 2;
           const url_: number[] = [];

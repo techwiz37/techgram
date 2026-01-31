@@ -56,7 +56,7 @@ export function getUsername(string: string) {
     url = new URL(string);
   } catch {
     try {
-      url = new URL("https:
+      url = new URL("https://t.me/" + string);
     } catch {
 
     }

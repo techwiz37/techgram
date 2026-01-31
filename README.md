@@ -74,7 +74,7 @@ Atau tambahkan di `package.json`:
 **Persyaratan Node.js:**
 - Node.js versi 18.0.0 atau lebih baru
 - TypeScript (opsional, untuk type support)
-- Package harus menggunakan ES Modules (`"type": "module"` di package.json)
+- **Mendukung ESM dan CommonJS!** Library otomatis memilih format yang tepat
 
 **Setup Project Node.js:**
 
@@ -106,7 +106,9 @@ npm run build
 - Build akan mengkonversi .ts ke .js yang bisa dijalankan Node.js
 - Build otomatis via `postinstall` script
 
-4. Setup package.json untuk ES Modules:
+4. Setup package.json:
+
+**Untuk ES Modules (ESM):**
 ```json
 {
   "type": "module",
@@ -119,7 +121,22 @@ npm run build
 }
 ```
 
-4. Buat file `index.js` atau `index.ts`:
+**Untuk CommonJS:**
+```json
+{
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+5. Buat file `index.js` atau `index.ts`:
+
+**ESM:**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
 

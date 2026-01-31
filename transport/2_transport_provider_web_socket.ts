@@ -16,7 +16,7 @@ export const transportProviderWebSocket = (params?: { wss?: boolean }): Transpor
   return ({ dc, cdn }) => {
     params ??= {};
     params.wss ??= typeof location !== "undefined" && location.protocol === "http:" && location.hostname !== "localhost" ? false : true;
-    const url = `${params.wss ? "wss" : "ws"}:
+    const url = `${params.wss ? "wss" : "ws"}://${dcToNameMap[dc]}.web.telegram.org/${cdn ? "cdn" : "api"}/ws`;
     const connection = new ConnectionWebSocket(url);
     const transport = new TransportIntermediate(connection, true);
     const dcId = getDcId(dc, cdn);

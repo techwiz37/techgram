@@ -656,7 +656,7 @@ export async function constructMessage(
   if (Api.is("peerChannel", message_.peer_id)) {
     const reply_to_top_id = message_.reply_to && Api.is("messageReplyHeader", message_.reply_to) && message_.reply_to.reply_to_top_id;
     const threadId = reply_to_top_id && typeof reply_to_top_id === "number" ? reply_to_top_id + "/" : "";
-    link = `https:
+    link = `https://t.me/c/${message_.peer_id.channel_id}/${threadId}${message_.id}`;
     if ("username" in chat_ && chat_.username) {
       link = link.replace(`/c/${message_.peer_id.channel_id}/`, `/${chat_.username}/`);
     }

@@ -1605,7 +1605,7 @@ export class MessageManager implements UpdateProcessor<MessageManagerUpdate, tru
     } catch (err) {
       if (err instanceof TypeError) {
         try {
-          url = new URL("https:
+          url = new URL("https://t.me/" + link);
         } catch (err) {
           if (err instanceof TypeError) {
             return null;

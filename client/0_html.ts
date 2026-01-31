@@ -115,7 +115,7 @@ export function parseHtml(html_: string): [string, MessageEntity[]] {
           } catch {
             if (!Array.from(text).some(isSpace)) {
               try {
-                url = new URL(`http:
+                url = new URL(`http://${url}`);
               } catch {
 
               }
@@ -216,7 +216,7 @@ export function parseHtml(html_: string): [string, MessageEntity[]] {
             url_ = new URL(url);
           } catch {
             try {
-              url_ = new URL(`http:
+              url_ = new URL(`http://${url}`);
               url = url_.href;
             } catch {
               throw new InputError(`Invalid URL specified for tag a at offset ${i}.`);

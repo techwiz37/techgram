@@ -65,7 +65,7 @@ npm install github:techwiz37/techgram#v0.1.0
 
 **Persyaratan:**
 - Node.js versi 18.0.0 atau lebih baru
-- Package harus menggunakan ES Modules
+- **Mendukung ESM dan CommonJS!** Library otomatis memilih format yang tepat
 - **PENTING: Harus build setelah install!**
 
 **⚠️ Build Otomatis**
@@ -86,6 +86,8 @@ npm run build  # Build TypeScript ke JavaScript
 - Build otomatis via `postinstall` script setelah `npm install`
 
 **Setup package.json:**
+
+**ES Modules (ESM):**
 ```json
 {
   "name": "my-telegram-bot",
@@ -100,9 +102,29 @@ npm run build  # Build TypeScript ke JavaScript
 }
 ```
 
-**Import:**
+**CommonJS:**
+```json
+{
+  "name": "my-telegram-bot",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@techgram/node": "github:techwiz37/techgram"
+  }
+}
+```
+
+**Import (ESM):**
 ```typescript
 import { Client, StorageMemory } from "@techgram/node";
+```
+
+**Require (CommonJS):**
+```javascript
+const { Client, StorageMemory } = require("@techgram/node");
 ```
 
 **Contoh Lengkap:**

@@ -21,28 +21,44 @@
   "license": "LGPL-3.0",
   "author": "Techwiz",
   "type": "module",
+  "main": "./dist/cjs/mod.js",
+  "module": "./dist/esm/mod.js",
+  "types": "./mod.ts",
   "exports": {
     ".": {
-      "import": "./dist/mod.js",
+      "import": {
+        "types": "./mod.ts",
+        "default": "./dist/esm/mod.js"
+      },
+      "require": {
+        "types": "./mod.ts",
+        "default": "./dist/cjs/mod.js"
+      },
       "types": "./mod.ts"
     },
     "./worker": {
-      "import": "./dist/worker.js",
+      "import": {
+        "types": "./worker.ts",
+        "default": "./dist/esm/worker.js"
+      },
+      "require": {
+        "types": "./worker.ts",
+        "default": "./dist/cjs/worker.js"
+      },
       "types": "./worker.ts"
     }
   },
-  "main": "./dist/mod.js",
-  "types": "./mod.ts",
   "scripts": {
     "test": "deno test --allow-all",
-    "build": "node build-node.js",
-    "build:node": "node build-node.js",
-    "postinstall": "npm run build:node",
-    "prepublishOnly": "npm run build:node"
+    "build": "node build-dual.js",
+    "build:node": "node build-dual.js",
+    "build:esm": "node build-dual.js",
+    "build:cjs": "node build-dual.js",
+    "postinstall": "node postinstall.js"
   },
   "devDependencies": {
-    "esbuild": "^0.19.0",
-    "glob": "^10.3.10"
+    "esbuild": "^0.19.12",
+    "glob": "^10.5.0"
   },
   "engines": {
     "node": ">=18.0.0"

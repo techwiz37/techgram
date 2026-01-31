@@ -49,12 +49,18 @@ coverage/
 dist/
 build/
 *.js.map
+dist/esm/
+dist/cjs/
 
 # Scripts (don't push deployment scripts)
 run.sh
 run.ps1
 build-node.sh
 build-node.ps1
+
+# Test files
+test-*.mjs
+test-*.js
 
 # Optional: Uncomment if you want to ignore these
 # *.test.ts
